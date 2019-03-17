@@ -224,7 +224,9 @@ proc add_source_files {} {
 
    puts "$myScript: Adding sources to project..."
 
-   xfile add "../../hw/vhdl/8bitadder.vhdl"
+   xfile add "../../vhdl/8bitadder.vhdl"
+   xfile add "../../vhdl/fulladder.vhdl"
+   xfile add "bitadder.ucf"
 
    # Set the Top Module as well...
    project set top "behavior" "bitadder"
@@ -276,7 +278,7 @@ proc set_process_props {} {
    project set "Multiplier Style" "Auto" -process "Synthesize - XST"
    project set "Configuration Rate" "25" -process "Generate Programming File"
    project set "Number of Clock Buffers" "24" -process "Synthesize - XST"
-   project set "Max Fanout" "500" -process "Synthesize - XST"
+   project set "Max Fanout" "100000" -process "Synthesize - XST"
    project set "Regenerate Core" "Under Current Project Setting" -process "Regenerate Core"
    project set "Filter Files From Compile Order" "true"
    project set "Last Applied Goal" "Balanced"
@@ -304,6 +306,7 @@ proc set_process_props {} {
    project set "Resource Sharing" "true" -process "Synthesize - XST"
    project set "Shift Register Extraction" "true" -process "Synthesize - XST"
    project set "XOR Collapsing" "true" -process "Synthesize - XST"
+   project set "User Browsed Strategy Files" ""
    project set "VHDL Source Analysis Standard" "VHDL-93"
    project set "Input TCL Command Script" "" -process "Generate Text Power Report"
    project set "Load Physical Constraints File" "Default" -process "Analyze Power Distribution (XPower Analyzer)"
@@ -353,7 +356,7 @@ proc set_process_props {} {
    project set "Enable Outputs (Output Events)" "Default (5)" -process "Generate Programming File"
    project set "Wait for DLL Lock (Output Events)" "Default (NoWait)" -process "Generate Programming File"
    project set "Release Write Enable (Output Events)" "Default (6)" -process "Generate Programming File"
-   project set "Enable Internal Done Pipe" "false" -process "Generate Programming File"
+   project set "Enable Internal Done Pipe" "true" -process "Generate Programming File"
    project set "Drive Awake Pin During Suspend/Wake Sequence" "false" -process "Generate Programming File"
    project set "Enable Suspend/Wake Global Set/Reset" "false" -process "Generate Programming File"
    project set "Enable Power-On Reset Detection" "true" -process "Generate Programming File"
@@ -420,7 +423,7 @@ proc set_process_props {} {
    project set "Verilog Include Directories" "" -process "Synthesize - XST"
    project set "Verilog 2001" "true" -process "Synthesize - XST"
    project set "Verilog Macros" "" -process "Synthesize - XST"
-   project set "Work Directory" "/home/rcavalcanti/Projects/CoSimulation/CoSimulation/xil/Adder/xst" -process "Synthesize - XST"
+   project set "Work Directory" "/home/rcavalcanti/Projects/CoSimulation/CoSimulation/hw/xil/Adder/xst" -process "Synthesize - XST"
    project set "Write Timing Constraints" "false" -process "Synthesize - XST"
    project set "Other XST Command Line Options" "" -process "Synthesize - XST"
    project set "Auto Implementation Compile Order" "true"
