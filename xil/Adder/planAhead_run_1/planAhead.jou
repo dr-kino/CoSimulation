@@ -1,0 +1,95 @@
+#-----------------------------------------------------------
+# PlanAhead v14.5 (64-bit)
+# Build 247527 by xbuild on Mon Mar 25 17:11:23 MDT 2013
+# Start of session at: Sun Mar 17 09:16:52 2019
+# Process ID: 18979
+# Log file: /home/rcavalcanti/Projects/CoSimulation/CoSimulation/xil/Adder/planAhead_run_1/planAhead.log
+# Journal file: /home/rcavalcanti/Projects/CoSimulation/CoSimulation/xil/Adder/planAhead_run_1/planAhead.jou
+#-----------------------------------------------------------
+start_gui
+source /home/rcavalcanti/Projects/CoSimulation/CoSimulation/xil/Adder/pa.fromHdl.tcl
+update_compile_order -fileset sim_1
+set_property iostandard LVCMOS25 [get_ports [list {A[7]}]]
+startgroup
+set_property package_pin B4 [get_ports {A[7]}]
+endgroup
+startgroup
+set_property package_pin A4 [get_ports {A[6]}]
+endgroup
+startgroup
+set_property package_pin A5 [get_ports {A[5]}]
+endgroup
+startgroup
+set_property package_pin B6 [get_ports {A[4]}]
+endgroup
+startgroup
+set_property package_pin A6 [get_ports {A[3]}]
+endgroup
+startgroup
+set_property package_pin A7 [get_ports {A[2]}]
+endgroup
+startgroup
+set_property package_pin A8 [get_ports {A[1]}]
+endgroup
+startgroup
+set_property package_pin A9 [get_ports {A[0]}]
+endgroup
+startgroup
+set_property package_pin C10 [get_ports {B[7]}]
+endgroup
+startgroup
+set_property package_pin A10 [get_ports {B[6]}]
+endgroup
+startgroup
+set_property package_pin A11 [get_ports {B[5]}]
+endgroup
+startgroup
+set_property package_pin A12 [get_ports {B[4]}]
+endgroup
+startgroup
+set_property package_pin AA3 [get_ports {B[3]}]
+endgroup
+startgroup
+set_property package_pin AB2 [get_ports {B[2]}]
+endgroup
+startgroup
+set_property package_pin AA4 [get_ports {B[1]}]
+endgroup
+startgroup
+set_property package_pin AB3 [get_ports {B[0]}]
+endgroup
+startgroup
+set_property package_pin AB6 [get_ports {S_O[7]}]
+endgroup
+startgroup
+set_property package_pin AA6 [get_ports {S_O[6]}]
+endgroup
+set_property package_pin "" [get_ports [list  {S_O[4]}]]
+startgroup
+set_property package_pin AB7 [get_ports {S_O[5]}]
+endgroup
+startgroup
+set_property package_pin Y7 [get_ports {S_O[4]}]
+endgroup
+startgroup
+set_property package_pin AB8 [get_ports {S_O[3]}]
+endgroup
+startgroup
+set_property package_pin AA8 [get_ports {S_O[2]}]
+endgroup
+startgroup
+set_property package_pin AB10 [get_ports {S_O[1]}]
+endgroup
+startgroup
+set_property package_pin AA10 [get_ports {S_O[0]}]
+endgroup
+startgroup
+set_property package_pin V14 [get_ports C_IN]
+endgroup
+startgroup
+set_property package_pin V15 [get_ports C_OUT]
+endgroup
+startgroup
+set_property package_pin W16 [get_ports OVERFLOW]
+endgroup
+save_constraints
