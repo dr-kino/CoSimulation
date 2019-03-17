@@ -9,9 +9,9 @@ entity 8bitadder is
 		A		: in  std_logic_vector(7 downto 0); 
 		B		: in  std_logic_vector(7 downto 0);
 		C_IN	: in  std_logic;
-		S		: out std_logic_vector(7 downto 0);
+		S_O		: out std_logic_vector(7 downto 0);
 		C_OUT	: out std_logic;
-		OUTPUT	: out std_logic
+		OVERFLOW: out std_logic
 	);
 end 8bitadder;
 
@@ -23,7 +23,7 @@ component full_adder
 		a		: in  std_logic;
 		b		: in  std_logic;
 		cin		: in  std_logic;
-		s		: out std_logic;
+		so		: out std_logic;
 		cout	: out std_logic
 	);
 end component;
@@ -35,11 +35,11 @@ begin
 CARRY_OUT(0) <= C_IN;
 
 adderGen : for i in 0 to 7 generate
-	UFullAdder: full_adder port map(
-		a => A(i) , b => B(i), cin => C_IN(i), s => S(i), cout => CARRY_OUT(i+1)
+	UADD: full_adder port map(
+		a => A(i) , b => B(i), cin => C_IN(i), so => S_O(i), cout => CARRY_OUT(i+1)
 	);	   
 
 	C_OUT <= CARRY_OUT(8);
-	V <= CARRY_OUT(7) xor CARRY_OUT(8);
+	OVERFLOW <= CARRY_OUT(7) xor CARRY_OUT(8);
 
 end behavior;
