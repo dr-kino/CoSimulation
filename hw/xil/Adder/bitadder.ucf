@@ -1,0 +1,34 @@
+
+# PlanAhead Generated IO constraints 
+
+NET "A[7]" IOSTANDARD = LVCMOS25;
+
+# PlanAhead Generated physical constraints 
+
+NET "A[7]" LOC = B4;
+NET "A[6]" LOC = A4;
+NET "A[5]" LOC = A5;
+NET "A[4]" LOC = B6;
+NET "A[3]" LOC = A6;
+NET "A[2]" LOC = A7;
+NET "A[1]" LOC = A8;
+NET "A[0]" LOC = A9;
+NET "B[7]" LOC = C10;
+NET "B[6]" LOC = A10;
+NET "B[5]" LOC = A11;
+NET "B[4]" LOC = A12;
+NET "B[3]" LOC = AA3;
+NET "B[2]" LOC = AB2;
+NET "B[1]" LOC = AA4;
+NET "B[0]" LOC = AB3;
+NET "S_O[7]" LOC = AB6;
+NET "S_O[6]" LOC = AA6;
+NET "S_O[5]" LOC = AB7;
+NET "S_O[4]" LOC = Y7;
+NET "S_O[3]" LOC = AB8;
+NET "S_O[2]" LOC = AA8;
+NET "S_O[1]" LOC = AB10;
+NET "S_O[0]" LOC = AA10;
+NET "C_IN" LOC = V14;
+NET "C_OUT" LOC = V15;
+NET "OVERFLOW" LOC = W16;
