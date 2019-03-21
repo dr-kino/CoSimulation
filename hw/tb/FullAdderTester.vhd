@@ -50,6 +50,36 @@ ARCHITECTURE behavior OF FullAdderTester IS
         );
     END COMPONENT;
     
+	component pipe_bus is
+	generic
+	(
+		DataWidth_g : natural := 8;
+		InputFile_g : string := "bus_sw2hw.txt";
+		OutputFile_g : string := "bus_hw2sw.txt"
+	);
+	port
+	(
+		Ready_i : in std_logic;
+		DataA_i : in std_logic_vector(DataWidth_g - 1 downto 0)
+		DataB_i : in std_logic_vector(DataWidth_g - 1 downto 0)
+		Ready_o : out std_logic;
+		Data_o : out std_logic_vector(DataWidth_g - 1 downto 0)
+	);
+	end component pipe_bus;
+
+	component pipe_sink is
+	generic
+	(
+		DataWidth_g : natural := 8;
+		InFile_g : string := "sink_sw2hw.txt";
+		OutFile_g : string := "sink_hw2sw.txt";
+	);
+	port
+	(
+		Data_i : in std_logic_vector(DataWidth_g - 1 downto 0)
+		Data_o : out std_logic_vector(DataWidth_g - 1 downto 0)
+	);
+	end component pipe_sink;
 
    --Inputs
    signal A : std_logic_vector(7 downto 0) := (others => '0');
