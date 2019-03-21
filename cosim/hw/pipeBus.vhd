@@ -135,6 +135,237 @@ architecture behavioral of pipe_bus is
 		return result(Size downto 1);
 	end function;
 
+	type State_t is (Idle_st, Write_st, Read_st, WaitRead_st);
+	signal State_s : State_t;
+
+	function InsertChar(A:string; B:character) return string is
+		variable C : string(A'range);
+	begin
+		for i in A'low + 1 to A'high loop
+			C(i) := A(i - 1);
+		end loop;
+		C(A'low) := B;
+		return C;
+	end function;
+ 
+	procedure ReadCommand(file f: TEXT; OperA : out string; OperB : out string; OperC : out string) is
+		variable l : line;
+		variable char : character;
+		variable good : boolean;
+		variable exec : boolean;
+		variable OperA_v : string(OperA'range);
+		variable OperB_v : string(OperB'range);
+		variable OperC_v : string(OperC'range);
+		variable field : natural;
+	begin
+		-- Start filling field 0
+		field := 0;
+		-- There is no command to exec
+		exec := false;
+		-- Fill fields with spaces
+		OperA_v := (others => ' ');
+		OperB_v := (others => ' ');
+		OperC_v := (others => ' ');
+
+		-- Is there any command?
+		if not endfile(f) then
+			-- Read line and extract fields
+			readline(f, l);
+			read(l, char, good);
+			while good and not exec loop
+				case char is
+					when ' ' | ',' =>
+						-- Next field
+						field := field + 1;
+					when ';' =>
+						-- Execute command
+						exec := true;
+					when others =>
+						-- Extract field
+						case field is
+							when 0 =>
+								OperA_v := InsertChar(OperA_v, char);
+							when 1 =>
+								OperB_v := InsertChar(OperB_v, char);
+							when 2 =>
+								OperC_v := InsertChar(OperC_v, char);
+							when others =>
+								null;
+						end case;
+				end case;
+
+				-- Read next character
+				read(l, char, good);
+			end loop;
+		end if;
+
+		-- Execute command
+		if exec then
+			OperA := OperA_v;
+			OperB := OperB_v;
+			OperC := OperC_v;
+		end if;
+	end procedure;
+
+	procedure WriteCommand(OperA:string) is
+		file f : text;
+		variable l : line;
+	begin
+		file_open(f, OutFile_g, append_mode);
+		write(l, OperA & ";");
+		writeline(f, l);
+		file_close(f);
+	end procedure;
+	
 begin
 
+	process
+		file f : text;
+		variable f_st : file_open_status;
+		variable Addr : string((Addr_o'length - 1)/4 downto 1);
+		variable Data : string((Data_o'length - 1)/4 + 1 downto 1);
+		variable Cmd : string(1 downto 1);
+		file f2 : text open write_mode is "STD_OUTPUT";
+		variable l2 : line;
+		variable odata_v : string(cdiv(Data_i'length, 4) downto 1);
+	begin
+		write(l2, "Opening " & InFile_g);
+		writeline(f2, l2);
+		f_st := status_error;
+		while f_st /= open_ok loop
+			file_open(f_st, f, InFile_g, read_mode);
+		end loop;
+		write(l2, InFile_g & " was successfuly opened");
+		writeline(f2, l2);
+
+		loop
+			write(l2, "Waiting command...");
+			writeline(f2, l2);
+
+			Cmd := (others => ' ');
+			Addr := (others => ' ');
+			Data := (others => ' ');
+			-- Blocked waiting command
+			WriteCommand("W");
+			ReadCommand(f, Cmd, Addr, Data);
+			write(l2, "Command: ");
+			case Cmd is
+				when "W" | "w" =>
+					write(l2, "Write ");
+					write(l2, Data & " to address ");
+					write(l2, Addr);
+					writeline(f2, l2);
+
+					Addr_o <= ToHex(Addr, Addr_o'length);
+					Data_o <= ToHex(Data, Data_o'length);
+					Read_o <= '0';
+					Write_o <= '1';
+
+					-- Acknowledge command was accepted
+					WriteCommand("A");
+
+					-- Wait until command is executed
+					loop
+						wait until rising_edge(Clk_i);
+						if Ready_i = '1' then
+							-- Done executing
+							Write_o <= '0';
+							WriteCommand("D");
+							exit;
+						else
+							-- Still busy
+							WriteCommand("B");
+						end if;
+					end loop;
+
+				when "R" | "r" =>
+					write(l2, "Read from address ");
+					write(l2, Addr);
+					writeline(f2, l2);
+
+					State_s <= Write_st;
+					Addr_o <= ToHex(Addr, Addr_o'length);
+					Data_o <= (others => '-');
+					Read_o <= '1';
+					Write_o <= '0';
+
+					-- Acknowledge command was accepted
+					WriteCommand("A");
+
+					-- Wait until command is executed
+					loop
+						wait until rising_edge(Clk_i);
+						if Ready_i = '1' then
+							Read_o <= '0';
+							WriteCommand("B");
+							exit;
+						else
+							-- Still busy
+							WriteCommand("B");
+						end if;
+					end loop;
+
+					-- Wait until data may be fecthed
+					loop
+						wait until rising_edge(Clk_i);
+						if Valid_i = '1' then
+							-- Fetch data
+							odata_v := ToHex(To_01(Data_i), odata_v'length);
+							WriteCommand("F", odata_v);
+							-- Done executing
+							WriteCommand("D");
+							exit;
+						else
+							WriteCommand("B");
+						end if;
+					end loop;
+
+				when "N" | "n" =>
+					write(l2, "No Operation");
+					writeline(f2, l2);
+
+					-- Acknowledge command
+					WriteCommand("A");
+
+					-- Wait one clock cycle
+					wait until rising_edge(Clk_i);
+
+					-- Done executing
+					WriteCommand("D");
+
+				when "Q" | "q" =>
+					write(l2, "Quit co-simulation by free running vhdl simulation...");
+					writeline(f2, l2);
+
+					-- Acknowledge command
+					WriteCommand("A");
+					-- Other simulation side regard as done 
+					WriteCommand("D");
+
+					-- Wait forever, so vhdl simulation may run freely.
+					wait;
+
+				when "S" | "s" =>
+					write(l2, "Sync " & Addr);
+					writeline(f2, l2);
+
+					-- Simulation sync acknowledge
+					WriteCommand("S", Addr);
+
+				when others =>
+					write(l2, "Invalid");
+					writeline(f2, l2);
+					Addr_o <= (others => '-');
+					Data_o <= (others => '-');
+					Read_o <= '0';
+					Write_o <= '0';
+
+					-- Acknowledge invalid command
+					WriteCommand("I");
+	
+			end case;
+		end loop;
+
+	end process;
+						
 end architecture behavioral;
