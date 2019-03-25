@@ -81,6 +81,17 @@ ARCHITECTURE behavior OF FullAdderTester IS
 	);
 	end component pipe_sink;
 
+	-- Pipe Bus
+	signal Pipe_Ready_i : std_logic;
+	signal Pipe_DataA_i : std_logic_vector(DataWidth_g - 1 downto 0);
+	signal Pipe_DataB_i : std_logic_vector(DataWidth_g - 1 downto 0);
+	signal Pipe_Ready_o : std_logic;
+	signal Pipe_Data_o : std_logic_vector(DataWidth_g - 1 downto 0);
+	-- Pipe Sink
+	signal Pipe_DataWord_o : std_logic_vector(8 downto 0);
+	signal Pipe_Data_i : std_logic_vector(8 downto 0);
+	signal Pipe_Data_o : std_logic_vector(8 downto 0);
+
    --Inputs
    signal A : std_logic_vector(7 downto 0) := (others => '0');
    signal B : std_logic_vector(7 downto 0) := (others => '0');
@@ -98,6 +109,35 @@ ARCHITECTURE behavior OF FullAdderTester IS
  
 BEGIN
  
+	Pipe_inst_bus: pipe_bus
+	generic map
+	(
+		DataWidth_g => 8,
+		InputFile_g => "bus_sw2hw.txt",
+		OutputFile_g => "bus_hw2sw.txt"
+	)
+	port map
+	(
+		Ready_i => Pipe_Ready_i,
+		DataA_i => Pipe_DataA_i,
+		DataB_i => Pipe_DataB_i,
+		Ready_o => Pipe_Ready_o,
+		Data_o => Pipe_Data_o
+	);
+
+	Pipe_inst_sink: pipe_sink
+	generic map
+	(
+		DataWidth_g => DataWord_o'length,
+		InFile_g => "sink_sw2hw.txt"
+		OutFile_g => "sink_hw2sw.txt"
+	)
+	port map
+	(
+		Data_i => Pipe_Data_i, 
+		Data_o => Pipe_Data_o
+	);
+
 	-- Instantiate the Unit Under Test (UUT)
    uut: bitadder PORT MAP (
           A => A,
