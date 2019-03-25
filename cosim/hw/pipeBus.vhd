@@ -5,14 +5,14 @@ use ieee.std_logic_1164.all;
 library std;
 use std.textio.all;
 
-library work;
-use work.math_pkg.all;
+--library work;
+--use work.math_pkg.all;
 
 entity pipe_bus is
 	generic
 	(
 		DataWidth_g : natural := 8;
-		InputFile_g : string := "bus_sw2hw.txt"
+		InputFile_g : string := "bus_sw2hw.txt";
 		OutputFile_g : string := "bus_hw2sw.txt"
 	);
 	port
@@ -113,24 +113,24 @@ architecture behavioral of pipe_bus is
 		return R;
 	end function;
 
-	function ToHex(A:string; Size:positive) return std_logic_vector is
-		variable result : std_logic_vector(max(A'length * 4, Size) - 1 downto 0);
-	begin
-		result := (others => '0');
-		for i in 0 to A'length - 1 loop
-			result(4*(i + 1) - 1 downto 4*i) := ToHex(A(i + 1));
-		end loop;
-		return result(Size - 1 downto 0);
-	end function;
+	--function ToHex(A:string; Size:positive) return std_logic_vector is
+		--variable result : std_logic_vector(max(A'length * 4, Size) - 1 downto 0);
+	--begin
+		--result := (others => '0');
+		--for i in 0 to A'length - 1 loop
+			--result(4*(i + 1) - 1 downto 4*i) := ToHex(A(i + 1));
+		--end loop;
+		--return result(Size - 1 downto 0);
+	--end function;
 
 	function ToHex(A:std_logic_vector; Size:positive) return string is
 		variable result : string(Size downto 1);
-		variable a_v : std_logic_vector(max(Size * 4, 4 * cdiv(A'length, 4)) - 1 downto 0);
+		--ariable a_v : std_logic_vector(max(Size * 4, 4 * cdiv(A'length, 4)) - 1 downto 0);
 	begin
-		a_v := (others => '0');
-		a_v(A'length - 1 downto 0) := A;
+		--a_v := (others => '0');
+		--a_v(A'length - 1 downto 0) := A;
 		for i in 0 to Size - 1 loop
-			result(i + 1) := ToHex(A_v(4 * (i + 1) - 1 downto 4 * i));
+			--result(i + 1) := ToHex(A_v(4 * (i + 1) - 1 downto 4 * i));
 		end loop;
 		return result(Size downto 1);
 	end function;
@@ -211,7 +211,7 @@ architecture behavioral of pipe_bus is
 		file f : text;
 		variable l : line;
 	begin
-		file_open(f, OutFile_g, append_mode);
+		file_open(f, OutputFile_g, append_mode);
 		write(l, OperA & ";");
 		writeline(f, l);
 		file_close(f);
@@ -222,20 +222,19 @@ begin
 	process
 		file f : text;
 		variable f_st : file_open_status;
-		variable Addr : string((Addr_o'length - 1)/4 downto 1);
 		variable Data : string((Data_o'length - 1)/4 + 1 downto 1);
 		variable Cmd : string(1 downto 1);
 		file f2 : text open write_mode is "STD_OUTPUT";
 		variable l2 : line;
-		variable odata_v : string(cdiv(Data_i'length, 4) downto 1);
+		--variable odata_v : string(cdiv(Data_i'length, 4) downto 1);
 	begin
-		write(l2, "Opening " & InFile_g);
+		write(l2, "Opening " & InputFile_g);
 		writeline(f2, l2);
 		f_st := status_error;
 		while f_st /= open_ok loop
-			file_open(f_st, f, InFile_g, read_mode);
+			file_open(f_st, f, InputFile_g, read_mode);
 		end loop;
-		write(l2, InFile_g & " was successfuly opened");
+		write(l2, InputFile_g & " was successfuly opened");
 		writeline(f2, l2);
 
 		loop
@@ -243,33 +242,29 @@ begin
 			writeline(f2, l2);
 
 			Cmd := (others => ' ');
-			Addr := (others => ' ');
 			Data := (others => ' ');
 			-- Blocked waiting command
 			WriteCommand("W");
-			ReadCommand(f, Cmd, Addr, Data);
+			--ReadCommand(f, Cmd, Addr, Data);
 			write(l2, "Command: ");
 			case Cmd is
 				when "W" | "w" =>
 					write(l2, "Write ");
 					write(l2, Data & " to address ");
-					write(l2, Addr);
 					writeline(f2, l2);
 
-					Addr_o <= ToHex(Addr, Addr_o'length);
-					Data_o <= ToHex(Data, Data_o'length);
-					Read_o <= '0';
-					Write_o <= '1';
+					--Addr_o <= ToHex(Addr, Addr_o'length);
+					--Data_o <= ToHex(Data, Data_o'length);
+					--Read_o <= '0';
 
 					-- Acknowledge command was accepted
 					WriteCommand("A");
 
 					-- Wait until command is executed
 					loop
-						wait until rising_edge(Clk_i);
+						--wait until rising_edge(Clk_i);
 						if Ready_i = '1' then
 							-- Done executing
-							Write_o <= '0';
 							WriteCommand("D");
 							exit;
 						else
@@ -280,23 +275,21 @@ begin
 
 				when "R" | "r" =>
 					write(l2, "Read from address ");
-					write(l2, Addr);
 					writeline(f2, l2);
 
 					State_s <= Write_st;
-					Addr_o <= ToHex(Addr, Addr_o'length);
 					Data_o <= (others => '-');
-					Read_o <= '1';
-					Write_o <= '0';
+					--Read_o <= '1';
+					--Write_o <= '0';
 
 					-- Acknowledge command was accepted
 					WriteCommand("A");
 
 					-- Wait until command is executed
 					loop
-						wait until rising_edge(Clk_i);
+						--wait until rising_edge(Clk_i);
 						if Ready_i = '1' then
-							Read_o <= '0';
+							--Read_o <= '0';
 							WriteCommand("B");
 							exit;
 						else
@@ -307,17 +300,17 @@ begin
 
 					-- Wait until data may be fecthed
 					loop
-						wait until rising_edge(Clk_i);
-						if Valid_i = '1' then
+						--wait until rising_edge(Clk_i);
+						--if Valid_i = '1' then
 							-- Fetch data
-							odata_v := ToHex(To_01(Data_i), odata_v'length);
-							WriteCommand("F", odata_v);
+							--odata_v := ToHex(To_01(Data_i), odata_v'length);
+							--WriteCommand("F", odata_v);
 							-- Done executing
 							WriteCommand("D");
 							exit;
-						else
+						--else
 							WriteCommand("B");
-						end if;
+						--end if;
 					end loop;
 
 				when "N" | "n" =>
@@ -328,7 +321,7 @@ begin
 					WriteCommand("A");
 
 					-- Wait one clock cycle
-					wait until rising_edge(Clk_i);
+					--wait until rising_edge(Clk_i);
 
 					-- Done executing
 					WriteCommand("D");
@@ -346,19 +339,19 @@ begin
 					wait;
 
 				when "S" | "s" =>
-					write(l2, "Sync " & Addr);
+					--write(l2, "Sync " & Addr);
 					writeline(f2, l2);
 
 					-- Simulation sync acknowledge
-					WriteCommand("S", Addr);
+					--WriteCommand("S", Addr);
 
 				when others =>
 					write(l2, "Invalid");
 					writeline(f2, l2);
-					Addr_o <= (others => '-');
+					--Addr_o <= (others => '-');
 					Data_o <= (others => '-');
-					Read_o <= '0';
-					Write_o <= '0';
+					--Read_o <= '0';
+					--Write_o <= '0';
 
 					-- Acknowledge invalid command
 					WriteCommand("I");

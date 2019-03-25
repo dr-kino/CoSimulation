@@ -82,15 +82,16 @@ ARCHITECTURE behavior OF FullAdderTester IS
 	end component pipe_sink;
 
 	-- Pipe Bus
+	constant Pipe_DataWidth_g : natural := 8;
 	signal Pipe_Ready_i : std_logic;
-	signal Pipe_DataA_i : std_logic_vector(DataWidth_g - 1 downto 0);
-	signal Pipe_DataB_i : std_logic_vector(DataWidth_g - 1 downto 0);
+	signal Pipe_DataA_i : std_logic_vector(Pipe_DataWidth_g - 1 downto 0);
+	signal Pipe_DataB_i : std_logic_vector(Pipe_DataWidth_g - 1 downto 0);
 	signal Pipe_Ready_o : std_logic;
-	signal Pipe_Data_o : std_logic_vector(DataWidth_g - 1 downto 0);
+	signal Pipe_Data_o : std_logic_vector(Pipe_DataWidth_g - 1 downto 0);
 	-- Pipe Sink
-	signal Pipe_DataWord_o : std_logic_vector(8 downto 0);
-	signal Pipe_Data_i : std_logic_vector(8 downto 0);
-	signal Pipe_Data_o : std_logic_vector(8 downto 0);
+	signal PipeSink_DataWord_o : std_logic_vector(8 downto 0);
+	signal PipeSink_Data_i : std_logic_vector(8 downto 0);
+	signal PipeSink_Data_o : std_logic_vector(8 downto 0);
 
    --Inputs
    signal A : std_logic_vector(7 downto 0) := (others => '0');
@@ -128,14 +129,14 @@ BEGIN
 	Pipe_inst_sink: pipe_sink
 	generic map
 	(
-		DataWidth_g => DataWord_o'length,
-		InFile_g => "sink_sw2hw.txt"
+		DataWidth_g => PipeSink_DataWord_o'length,
+		InFile_g => "sink_sw2hw.txt",
 		OutFile_g => "sink_hw2sw.txt"
 	)
 	port map
 	(
-		Data_i => Pipe_Data_i, 
-		Data_o => Pipe_Data_o
+		Data_i => PipeSink_Data_i, 
+		Data_o => PipeSink_Data_o
 	);
 
 	-- Instantiate the Unit Under Test (UUT)
