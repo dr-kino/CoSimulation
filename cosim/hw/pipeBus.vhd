@@ -238,6 +238,8 @@ begin
 		writeline(f2, l2);
 
 		loop
+			wait for 100 ns; 
+
 			write(l2, "Waiting command...");
 			writeline(f2, l2);
 

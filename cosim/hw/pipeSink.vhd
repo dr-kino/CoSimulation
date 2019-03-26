@@ -63,6 +63,7 @@ begin
 		loop
 			tlast := tnow;
 			tnow := now;
+			wait for 100 ns;
 			-- Send sample
 			--WriteCommand("S", integer'image(Time2ps(tnow - tlast)), integer'image(to_integer(signed(Data_i))));
 		end loop;
