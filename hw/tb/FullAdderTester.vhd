@@ -167,15 +167,12 @@ BEGIN
 
       wait for clock_period*10;
 
-      -- insert stimulus here 
-		A <= "00001111";
-		wait for clock_period*10;
-		B <= "10101010";
-		wait for clock_period*10;
-		A <= "11111111";
-		B <= "11111111";
+		if clock'event and clock = '1' then
+		   -- insert stimulus here 
+			A <= Pipe_DataA_i;
+			B <= Pipe_DataB_i;	
+		end if;
 		
-      wait;
    end process;
 
 END;
