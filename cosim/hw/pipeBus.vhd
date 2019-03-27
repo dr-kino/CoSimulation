@@ -12,8 +12,8 @@ entity pipe_bus is
 	generic
 	(
 		DataWidth_g : natural := 8;
-		InputFile_g : string := "../../../cosim/pipe/bus_sw2hw.txt";
-		OutputFile_g : string := "../../../cosim/pipe/bus_hw2sw.txt"
+		InputFile_g : string := "bus_sw2hw.txt";
+		OutputFile_g : string := "bus_hw2sw.txt"
 	);
 	port
 	(
@@ -357,7 +357,6 @@ begin
 
 					-- Acknowledge invalid command
 					WriteCommand("I");
-	
 			end case;
 		end loop;
 

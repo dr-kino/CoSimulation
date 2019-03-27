@@ -13,8 +13,8 @@ entity pipe_sink is
 	generic
 	(
 		DataWidth_g : natural := 8;
-		InFile_g : string := "../../../cosim/pipe/sink_sw2hw.txt";
-		OutFile_g : string := "../../../cosim/pipe/sink_hw2sw.txt"
+		InFile_g : string := "sink_sw2hw.txt";
+		OutFile_g : string := "sink_hw2sw.txt"
 	);
 	port
 	(
