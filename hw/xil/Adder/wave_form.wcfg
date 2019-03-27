@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/rcavalcanti/Projects/CoSimulation/CoSimulation/hw/xil/Adder/FullAdderTester_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="fulladdertester" />
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+            <top_module name="textio" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="17" />
+   <wvobject fp_name="/fulladdertester/pipe_ready_i" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pipe_ready_i</obj_property>
+      <obj_property name="ObjectShortName">pipe_ready_i</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/pipe_dataa_i" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pipe_dataa_i[7:0]</obj_property>
+      <obj_property name="ObjectShortName">pipe_dataa_i[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/pipe_datab_i" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pipe_datab_i[7:0]</obj_property>
+      <obj_property name="ObjectShortName">pipe_datab_i[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/pipe_ready_o" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pipe_ready_o</obj_property>
+      <obj_property name="ObjectShortName">pipe_ready_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/pipe_data_o" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pipe_data_o[7:0]</obj_property>
+      <obj_property name="ObjectShortName">pipe_data_o[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/pipesink_dataword_o" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pipesink_dataword_o[8:0]</obj_property>
+      <obj_property name="ObjectShortName">pipesink_dataword_o[8:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/pipesink_data_i" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pipesink_data_i[8:0]</obj_property>
+      <obj_property name="ObjectShortName">pipesink_data_i[8:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/pipesink_data_o" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pipesink_data_o[8:0]</obj_property>
+      <obj_property name="ObjectShortName">pipesink_data_o[8:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/a" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">a[7:0]</obj_property>
+      <obj_property name="ObjectShortName">a[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/b" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">b[7:0]</obj_property>
+      <obj_property name="ObjectShortName">b[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/c_in" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">c_in</obj_property>
+      <obj_property name="ObjectShortName">c_in</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/s_o" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">s_o[7:0]</obj_property>
+      <obj_property name="ObjectShortName">s_o[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/c_out" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">c_out</obj_property>
+      <obj_property name="ObjectShortName">c_out</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/overflow" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">overflow</obj_property>
+      <obj_property name="ObjectShortName">overflow</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/clock" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clock</obj_property>
+      <obj_property name="ObjectShortName">clock</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/pipe_datawidth_g" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">pipe_datawidth_g</obj_property>
+      <obj_property name="ObjectShortName">pipe_datawidth_g</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fulladdertester/clock_period" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">clock_period</obj_property>
+      <obj_property name="ObjectShortName">clock_period</obj_property>
+   </wvobject>
+</wave_config>
