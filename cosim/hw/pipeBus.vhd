@@ -1,11 +1,13 @@
 -- PipeBus File
 library ieee;
 use ieee.std_logic_1164.all;
+use IEEE.std_logic_arith.all;
+use IEEE.numeric_std.all;
 
 library std;
 use std.textio.all;
 
---library work;
+library work;
 --use work.math_pkg.all;
 
 entity pipe_bus is
@@ -17,11 +19,12 @@ entity pipe_bus is
 	);
 	port
 	(
+		Clk_Bus_i : in std_logic;
 		Ready_i : in std_logic;
-		DataA_i : in std_logic_vector(DataWidth_g - 1 downto 0);
-		DataB_i : in std_logic_vector(DataWidth_g - 1 downto 0);
+		DataA_o : out std_logic_vector(DataWidth_g - 1 downto 0);
+		DataB_o : out std_logic_vector(DataWidth_g - 1 downto 0);
 		Ready_o : out std_logic;
-		Data_o : out std_logic_vector(DataWidth_g - 1 downto 0)
+		DataBus_o : out std_logic_vector(DataWidth_g - 1 downto 0)
 	);
 end entity pipe_bus;
 
@@ -113,31 +116,27 @@ architecture behavioral of pipe_bus is
 		return R;
 	end function;
 
-	--function ToHex(A:string; Size:positive) return std_logic_vector is
-		--variable result : std_logic_vector(max(A'length * 4, Size) - 1 downto 0);
-	--begin
-		--result := (others => '0');
-		--for i in 0 to A'length - 1 loop
-			--result(4*(i + 1) - 1 downto 4*i) := ToHex(A(i + 1));
-		--end loop;
-		--return result(Size - 1 downto 0);
-	--end function;
+	function ToHex(A:string; Size:positive) return std_logic_vector is
+		variable result : std_logic_vector(7 downto 0);
+	begin
+		result := (others => '0');
+		for i in 0 to A'length - 1 loop
+			result(4*(i + 1) - 1 downto 4*i) := ToHex(A(i + 1));
+		end loop;
+		return result(Size - 1 downto 0);
+	end function;
 
 	function ToHex(A:std_logic_vector; Size:positive) return string is
 		variable result : string(Size downto 1);
-		--ariable a_v : std_logic_vector(max(Size * 4, 4 * cdiv(A'length, 4)) - 1 downto 0);
+		variable a_v : std_logic_vector(7 downto 0);
 	begin
-		--a_v := (others => '0');
-		--a_v(A'length - 1 downto 0) := A;
+		a_v := (others => '0');
+		a_v(A'length - 1 downto 0) := A;
 		for i in 0 to Size - 1 loop
-			--result(i + 1) := ToHex(A_v(4 * (i + 1) - 1 downto 4 * i));
+			result(i + 1) := ToHex(A_v(4 * (i + 1) - 1 downto 4 * i));
 		end loop;
 		return result(Size downto 1);
 	end function;
-
-	type State_t is (Idle_st, Write_st, Read_st, WaitRead_st);
-	signal State_s : State_t;
-
 	function InsertChar(A:string; B:character) return string is
 		variable C : string(A'range);
 	begin
@@ -148,14 +147,13 @@ architecture behavioral of pipe_bus is
 		return C;
 	end function;
  
-	procedure ReadCommand(file f: TEXT; OperA : out string; OperB : out string; OperC : out string) is
+	procedure ReadCommand(file f: TEXT; OperA : out string; OperB : out string) is
 		variable l : line;
 		variable char : character;
 		variable good : boolean;
 		variable exec : boolean;
 		variable OperA_v : string(OperA'range);
 		variable OperB_v : string(OperB'range);
-		variable OperC_v : string(OperC'range);
 		variable field : natural;
 	begin
 		-- Start filling field 0
@@ -165,7 +163,6 @@ architecture behavioral of pipe_bus is
 		-- Fill fields with spaces
 		OperA_v := (others => ' ');
 		OperB_v := (others => ' ');
-		OperC_v := (others => ' ');
 
 		-- Is there any command?
 		if not endfile(f) then
@@ -187,8 +184,6 @@ architecture behavioral of pipe_bus is
 								OperA_v := InsertChar(OperA_v, char);
 							when 1 =>
 								OperB_v := InsertChar(OperB_v, char);
-							when 2 =>
-								OperC_v := InsertChar(OperC_v, char);
 							when others =>
 								null;
 						end case;
@@ -203,7 +198,6 @@ architecture behavioral of pipe_bus is
 		if exec then
 			OperA := OperA_v;
 			OperB := OperB_v;
-			OperC := OperC_v;
 		end if;
 	end procedure;
 
@@ -222,7 +216,7 @@ begin
 	process
 		file f : text;
 		variable f_st : file_open_status;
-		variable Data : string((Data_o'length - 1)/4 + 1 downto 1);
+		variable Data : string((DataBus_o'length - 1)/4 + 1 downto 1);
 		variable Cmd : string(1 downto 1);
 		file f2 : text open write_mode is "STD_OUTPUT";
 		variable l2 : line;
@@ -238,8 +232,8 @@ begin
 		writeline(f2, l2);
 
 		loop
-			wait for 100 ns; 
-
+			wait for 100 ns;
+		
 			write(l2, "Waiting command...");
 			writeline(f2, l2);
 
@@ -247,7 +241,7 @@ begin
 			Data := (others => ' ');
 			-- Blocked waiting command
 			WriteCommand("W");
-			--ReadCommand(f, Cmd, Addr, Data);
+			ReadCommand(f, Cmd, Data);
 			write(l2, "Command: ");
 			case Cmd is
 				when "W" | "w" =>
@@ -255,16 +249,15 @@ begin
 					write(l2, Data & " to address ");
 					writeline(f2, l2);
 
-					--Addr_o <= ToHex(Addr, Addr_o'length);
-					--Data_o <= ToHex(Data, Data_o'length);
-					--Read_o <= '0';
-
+					DataA_o <= ToHex(Data, DataA_o'length);
+					DataB_o <= ToHex(Data, DataB_o'length);
+					
 					-- Acknowledge command was accepted
 					WriteCommand("A");
 
 					-- Wait until command is executed
 					loop
-						--wait until rising_edge(Clk_i);
+						wait until rising_edge(Clk_Bus_i);
 						if Ready_i = '1' then
 							-- Done executing
 							WriteCommand("D");
@@ -273,46 +266,6 @@ begin
 							-- Still busy
 							WriteCommand("B");
 						end if;
-					end loop;
-
-				when "R" | "r" =>
-					write(l2, "Read from address ");
-					writeline(f2, l2);
-
-					State_s <= Write_st;
-					Data_o <= (others => '-');
-					--Read_o <= '1';
-					--Write_o <= '0';
-
-					-- Acknowledge command was accepted
-					WriteCommand("A");
-
-					-- Wait until command is executed
-					loop
-						--wait until rising_edge(Clk_i);
-						if Ready_i = '1' then
-							--Read_o <= '0';
-							WriteCommand("B");
-							exit;
-						else
-							-- Still busy
-							WriteCommand("B");
-						end if;
-					end loop;
-
-					-- Wait until data may be fecthed
-					loop
-						--wait until rising_edge(Clk_i);
-						--if Valid_i = '1' then
-							-- Fetch data
-							--odata_v := ToHex(To_01(Data_i), odata_v'length);
-							--WriteCommand("F", odata_v);
-							-- Done executing
-							WriteCommand("D");
-							exit;
-						--else
-							WriteCommand("B");
-						--end if;
 					end loop;
 
 				when "N" | "n" =>
@@ -323,7 +276,7 @@ begin
 					WriteCommand("A");
 
 					-- Wait one clock cycle
-					--wait until rising_edge(Clk_i);
+					wait until rising_edge(Clk_Bus_i);
 
 					-- Done executing
 					WriteCommand("D");
@@ -341,17 +294,17 @@ begin
 					wait;
 
 				when "S" | "s" =>
-					--write(l2, "Sync " & Addr);
+					write(l2, "Sync ");
 					writeline(f2, l2);
 
 					-- Simulation sync acknowledge
-					--WriteCommand("S", Addr);
+					WriteCommand("S");
 
 				when others =>
 					write(l2, "Invalid");
 					writeline(f2, l2);
 					--Addr_o <= (others => '-');
-					Data_o <= (others => '-');
+					DataBus_o <= (others => '-');
 					--Read_o <= '0';
 					--Write_o <= '0';
 

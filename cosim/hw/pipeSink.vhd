@@ -18,8 +18,9 @@ entity pipe_sink is
 	);
 	port
 	(
+		Clk_Pipe_i : in std_logic;
 		Data_i : in std_logic_vector(DataWidth_g - 1 downto 0);
-		Data_o : out std_logic_vector(DataWidth_g - 1 downto 0)
+		DataSink_o : out std_logic_vector(DataWidth_g - 1 downto 0)
 	);
 end entity pipe_sink;
 
@@ -61,11 +62,12 @@ begin
 		tnow := now;
 
 		loop
+			wait until rising_edge(Clk_Pipe_i);
 			tlast := tnow;
 			tnow := now;
 			wait for 100 ns;
 			-- Send sample
-			--WriteCommand("S", integer'image(Time2ps(tnow - tlast)), integer'image(to_integer(signed(Data_i))));
+			WriteCommand("S");
 		end loop;
 	end process;
 

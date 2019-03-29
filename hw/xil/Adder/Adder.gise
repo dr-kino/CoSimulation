@@ -85,7 +85,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1553646030" xil_pn:in_ck="778207060625113258" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1553646030">
+    <transform xil_pn:end_ts="1553819396" xil_pn:in_ck="778207060625113258" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1553819396">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="../../../cosim/hw/pipeBus.vhd"/>
@@ -106,26 +106,19 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1553645628" xil_pn:in_ck="778207060625113258" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1553645628">
+    <transform xil_pn:end_ts="1553819403" xil_pn:in_ck="778207060625113258" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1553819403">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForInputs"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="InputChanged"/>
-      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="../../../cosim/hw/pipeBus.vhd"/>
       <outfile xil_pn:name="../../../cosim/hw/pipeSink.vhd"/>
       <outfile xil_pn:name="../../tb/FullAdderTester.vhd"/>
       <outfile xil_pn:name="../../vhdl/8bitadder.vhdl"/>
       <outfile xil_pn:name="../../vhdl/fulladder.vhdl"/>
     </transform>
-    <transform xil_pn:end_ts="1553645630" xil_pn:in_ck="778207060625113258" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="2809359583580696734" xil_pn:start_ts="1553645628">
+    <transform xil_pn:end_ts="1553819405" xil_pn:in_ck="778207060625113258" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="2809359583580696734" xil_pn:start_ts="1553819403">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForInputs"/>
-      <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="InputChanged"/>
       <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="FullAdderTester_beh.prj"/>
       <outfile xil_pn:name="FullAdderTester_isim_beh.exe"/>
@@ -134,12 +127,9 @@
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1553645630" xil_pn:in_ck="-7039090463781641031" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="4690918687264418891" xil_pn:start_ts="1553645630">
+    <transform xil_pn:end_ts="1553819630" xil_pn:in_ck="-7039090463781641031" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="4690918687264418891" xil_pn:start_ts="1553819630">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForPredecessor"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="FullAdderTester_isim_beh.wdb"/>
       <outfile xil_pn:name="isim.cmd"/>
       <outfile xil_pn:name="isim.log"/>

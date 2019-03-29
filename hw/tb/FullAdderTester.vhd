@@ -59,11 +59,12 @@ ARCHITECTURE behavior OF FullAdderTester IS
 	);
 	port
 	(
+		Clk_Bus_i : in std_logic;
 		Ready_i : in std_logic;
-		DataA_i : in std_logic_vector(DataWidth_g - 1 downto 0);
-		DataB_i : in std_logic_vector(DataWidth_g - 1 downto 0);
+		DataA_o : out std_logic_vector(DataWidth_g - 1 downto 0);
+		DataB_o : out std_logic_vector(DataWidth_g - 1 downto 0);
 		Ready_o : out std_logic;
-		Data_o : out std_logic_vector(DataWidth_g - 1 downto 0)
+		DataBus_o : out std_logic_vector(DataWidth_g - 1 downto 0)
 	);
 	end component pipe_bus;
 
@@ -76,32 +77,33 @@ ARCHITECTURE behavior OF FullAdderTester IS
 	);
 	port
 	(
+		Clk_Pipe_i : in std_logic;
 		Data_i : in std_logic_vector(DataWidth_g - 1 downto 0);
-		Data_o : out std_logic_vector(DataWidth_g - 1 downto 0)
+		DataSink_o : out std_logic_vector(DataWidth_g - 1 downto 0)
 	);
 	end component pipe_sink;
 
 	-- Pipe Bus
 	constant Pipe_DataWidth_g : natural := 8;
-	signal Pipe_Ready_i : std_logic;
-	signal Pipe_DataA_i : std_logic_vector(Pipe_DataWidth_g - 1 downto 0);
-	signal Pipe_DataB_i : std_logic_vector(Pipe_DataWidth_g - 1 downto 0);
-	signal Pipe_Ready_o : std_logic;
-	signal Pipe_Data_o : std_logic_vector(Pipe_DataWidth_g - 1 downto 0);
+	signal Pipe_Ready_i : std_logic := '0';
+	signal Pipe_DataA_i : std_logic_vector(Pipe_DataWidth_g - 1 downto 0) := "00000000";
+	signal Pipe_DataB_i : std_logic_vector(Pipe_DataWidth_g - 1 downto 0) := "00000000";
+	signal Pipe_Ready_o : std_logic := '0';
+	signal Pipe_Data_o : std_logic_vector(Pipe_DataWidth_g - 1 downto 0) := "00000000";
 	-- Pipe Sink
-	signal PipeSink_DataWord_o : std_logic_vector(8 downto 0);
-	signal PipeSink_Data_i : std_logic_vector(8 downto 0);
-	signal PipeSink_Data_o : std_logic_vector(8 downto 0);
+	signal PipeSink_DataWord_o : std_logic_vector(8 downto 0) := "000000000";
+	signal PipeSink_Data_i : std_logic_vector(8 downto 0) := "000000000";
+	signal PipeSink_Data_o : std_logic_vector(8 downto 0) := "000000000";
 
    --Inputs
-   signal A : std_logic_vector(7 downto 0) := (others => '0');
-   signal B : std_logic_vector(7 downto 0) := (others => '0');
-   signal C_IN : std_logic := '0';
+   signal SA : std_logic_vector(7 downto 0) := (others => '0');
+   signal SB : std_logic_vector(7 downto 0) := (others => '0');
+   signal SC_IN : std_logic := '0';
 
  	--Outputs
-   signal S_O : std_logic_vector(7 downto 0);
-   signal C_OUT : std_logic;
-   signal OVERFLOW : std_logic;
+   signal SS_O : std_logic_vector(7 downto 0) := (others => '0');
+   signal SC_OUT : std_logic := '0';
+   signal SOVERFLOW : std_logic := '0';
    -- No clocks detected in port list. Replace <clock> below with 
    -- appropriate port name 
  
@@ -119,11 +121,12 @@ BEGIN
 	)
 	port map
 	(
+		Clk_Bus_i => clock,
 		Ready_i => Pipe_Ready_i,
-		DataA_i => Pipe_DataA_i,
-		DataB_i => Pipe_DataB_i,
+		DataA_o => Pipe_DataA_i,
+		DataB_o => Pipe_DataB_i,
 		Ready_o => Pipe_Ready_o,
-		Data_o => Pipe_Data_o
+		DataBus_o => Pipe_Data_o
 	);
 
 	Pipe_inst_sink: pipe_sink
@@ -135,18 +138,19 @@ BEGIN
 	)
 	port map
 	(
+		Clk_Pipe_i => clock,
 		Data_i => PipeSink_Data_i, 
-		Data_o => PipeSink_Data_o
+		DataSink_o => PipeSink_Data_o
 	);
 
 	-- Instantiate the Unit Under Test (UUT)
    uut: bitadder PORT MAP (
-          A => A,
-          B => B,
-          C_IN => C_IN,
-          S_O => S_O,
-          C_OUT => C_OUT,
-          OVERFLOW => OVERFLOW
+          A => SA,
+          B => SB,
+          C_IN => SC_IN,
+          S_O => SS_O,
+          C_OUT => SC_OUT,
+          OVERFLOW => SOVERFLOW
         );
 
    -- Clock process definitions
@@ -169,8 +173,8 @@ BEGIN
 
 		if clock'event and clock = '1' then
 		   -- insert stimulus here 
-			A <= Pipe_DataA_i;
-			B <= Pipe_DataB_i;
+			SA <= Pipe_DataA_i;
+			SB <= Pipe_DataB_i;
 --			A <= "11110000";
 --			B <= "11110101";
 		end if;
