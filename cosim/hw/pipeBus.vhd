@@ -222,6 +222,7 @@ begin
 		variable l2 : line;
 		--variable odata_v : string(cdiv(Data_i'length, 4) downto 1);
 	begin
+	loop
 		write(l2, "Opening " & InputFile_g);
 		writeline(f2, l2);
 		f_st := status_error;
@@ -231,7 +232,7 @@ begin
 		write(l2, InputFile_g & " was successfuly opened");
 		writeline(f2, l2);
 
-		loop
+		--loop
 			wait for 100 ns;
 		
 			write(l2, "Waiting command...");
