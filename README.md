@@ -8,7 +8,7 @@ source /usr/share/Xilinx/14.5/ISE_DS/settings64.sh
 
 ./Cosimulation
 
-´´´
+```
 Cosimulation>help
 Commands:
   verbose - Produce verbose output
@@ -36,4 +36,4 @@ Cosimulation>sum
 Sum operation executing on FPGA ...
   Result = 15
   Carry = 0
-´´´
+```
