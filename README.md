@@ -9,7 +9,7 @@ source /usr/share/Xilinx/14.5/ISE_DS/settings64.sh
 ./Cosimulation
 
 ```
-**Cosimulation>**help
+Cosimulation>help
 Commands:
   verbose - Produce verbose output
   avalue A - Value A (A<=255) to sum operation
