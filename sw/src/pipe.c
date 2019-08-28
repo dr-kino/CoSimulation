@@ -37,8 +37,8 @@ enum key_options
 static struct commands_t options[] = 
 {
 	{"verbose", key_verbose, "Produce verbose output", "^\\s*(verbose)\\s*$"},
-	{"avalue A",  key_avalue, "Value A (A<=15) to sum operation", "^\\s*(avalue)\\s+([0-9]*$)+\\s*$"},
-	{"bvalue B",  key_bvalue, "Value B (B<=15) to sum operation", "^\\s*(bvalue)\\s+([0-9]*$)+\\s*$"},
+	{"avalue A",  key_avalue, "Value A (A<=255) to sum operation", "^\\s*(avalue)\\s+([0-9]*$)+\\s*$"},
+	{"bvalue B",  key_bvalue, "Value B (B<=255) to sum operation", "^\\s*(bvalue)\\s+([0-9]*$)+\\s*$"},
 	{"sum", key_sum, "Execute \"sum\" command to get result for sum operation between A and B", "^\\s*(sum)\\s*$"},
 	{"pipein", key_pipein, "Pipe from simulated hardware", "^\\s*(pipein)\\s*$"},
 	{"pipeout", key_pipeout, "Pipe to simulated hardware", "^\\s*(pipeout)\\s*$"},
@@ -175,9 +175,9 @@ static int exec_command(struct arguments* arguments)
 					printf("Toogle verbose mode: %s \n", (verbose == true) ? ("Activated") : ("Deactivated") );
 					break;
 				case key_avalue:
-					if (strtoul(subcommand[1], 0, 10) > 15)
+					if (strtoul(subcommand[1], 0, 10) > 255)
 					{
-						printf("[A value should be smaller than 16]\n");
+						printf("[A value should be smaller than 256]\n");
 					}
 					else
 					{
@@ -189,9 +189,9 @@ static int exec_command(struct arguments* arguments)
 					}
 					break;
 				case key_bvalue:
-					if (strtoul(subcommand[1], 0, 10) > 15)
+					if (strtoul(subcommand[1], 0, 10) > 255)
 					{
-						printf("[B value should be smaller than 16]\n");
+						printf("[B value should be smaller than 256]\n");
 					}
 					else
 					{
