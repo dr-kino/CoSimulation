@@ -19,34 +19,31 @@ const char *argp_program_bug_address =
 static char doc[] =
 "Command line application to test 8 Bit Adder hardware.";
 
-/* Known command key bindings */
-//enun command_key
-//{
-//
-//};
-
 enum key_options
 {
 	key_verbose = 'v',
 	key_avalue = 'a',
 	key_bvalue = 'b',
 	key_sum = 's',
+	key_pipein = 'i',
+	key_pipeout = 'o',
+	key_help = 'h',
 	key_quit = 'q',
 	/* Force to stay away from ordinary printable ascii codes */
-	key_pipein = 128,
-	key_pipeout
+	key_last = 128
 };
 
 /* The options we understand. */
 static struct commands_t options[] = 
 {
 	{"verbose", key_verbose, "Produce verbose output", "^\\s*(verbose)\\s*$"},
-	{"avalue",  key_avalue, "Value A to sum", "^\\s*(avalue)\\s*$"},
-	{"bvalue",  key_bvalue, "Value B to sum", "^\\s*(bvalue)\\s*$"},
-	{"sum", key_sum, "Execute SUM command", "^\\s*(sum)\\s*$"},
-	{"quit", key_quit,"Exit prompt command", "^\\s*(quit)\\s*$"},
+	{"avalue A",  key_avalue, "Value A (A<=15) to sum operation", "^\\s*(avalue)\\s+([0-9]*$)+\\s*$"},
+	{"bvalue B",  key_bvalue, "Value B (B<=15) to sum operation", "^\\s*(bvalue)\\s+([0-9]*$)+\\s*$"},
+	{"sum", key_sum, "Execute \"sum\" command to get result for sum operation between A and B", "^\\s*(sum)\\s*$"},
 	{"pipein", key_pipein, "Pipe from simulated hardware", "^\\s*(pipein)\\s*$"},
 	{"pipeout", key_pipeout, "Pipe to simulated hardware", "^\\s*(pipeout)\\s*$"},
+	{"help", key_help, "Display help", "^\\s*(help)\\s*$"},
+	{"quit", key_quit,"Exit prompt command", "^\\s*(quit)\\s*$"},
 	{ 0, 0, 0, 0}
 };
 
@@ -136,9 +133,9 @@ void display_options(struct arguments* arguments)
 	if (arguments->verbose)
 	{
 	       printf("verbose level: %i\n", arguments->verbose);
-	       printf("Use alphadata card: %s\n", arguments->avalue ? "yes" : "no"); 
-	       printf("Alphadata card number: \"%s\"\n", arguments->bvalue ? arguments->bvalue : ""); 
-	       printf("Execute command: %s\n", arguments->sum ? "yes" : "no");
+	       printf("Type value A to sum operation: %s\n", arguments->avalue ? "yes" : "no"); 
+	       printf("Type value B to sum operation: \"%s\"\n", arguments->bvalue ? arguments->bvalue : ""); 
+	       printf("Execute SUM command: %s\n", arguments->sum ? "yes" : "no");
 	       printf("Input pipe: \"%s\"\n", arguments->pipein_arg ? arguments->pipein_arg : "");
 	       printf("Output pipe: \"%s\"\n", arguments->pipeout_arg ? arguments->pipeout_arg : "");
 	}
@@ -152,7 +149,8 @@ static int exec_command(struct arguments* arguments)
 	int prompt = 1;
 	int key = 0;
 	char* pCmd = 0;
-	char* subcommand[4];
+	char* subcommand[2];
+	static bool verbose = false;
 
 	do
 	{
@@ -168,26 +166,71 @@ static int exec_command(struct arguments* arguments)
 			pCmd = readline("Cosimulation>");
 			/* Execute command */
 			key = command_parse(options, pCmd, subcommand, 4);
-			printf("Key Value:%d\n", key);
 		}
 
 		switch(key)
 		{
+				case key_verbose:
+					verbose = !verbose;
+					printf("Toogle verbose mode: %s \n", (verbose == true) ? ("Activated") : ("Deactivated") );
+					break;
 				case key_avalue:
-					printf("A Value\n");
+					if (strtoul(subcommand[1], 0, 10) > 15)
+					{
+						printf("[A value should be smaller than 16]\n");
+					}
+					else
+					{
+						if (verbose == true)
+						{
+							printf("A Value:%d\n", strtoul(subcommand[1], 0, 10));
+						}
+						/* Execute command here */
+					}
 					break;
 				case key_bvalue:
-					printf("B Value\n");
+					if (strtoul(subcommand[1], 0, 10) > 15)
+					{
+						printf("[B value should be smaller than 16]\n");
+					}
+					else
+					{
+						if (verbose == true)
+						{
+							printf("B Value:%d\n", strtoul(subcommand[1], 0, 10));
+						}
+						/* Execute command here */
+					}
 					break;
 				case key_sum:
-					printf("Sum\n");
+					if (verbose == true)
+					{
+						printf("Sum operation executing on FPGA ...\n");
+					}
+					/* Execute command here*/
+
+					break;
+				case key_pipein:
+					if (verbose == true)
+					{
+						printf("Pipe input\n");
+					}
+					break;
+				case key_pipeout:
+					if (verbose == true)
+					{
+						printf("Pipe output\n");
+					}
+					break;
+				case key_help:
+					show_commands(options);
 					break;
 				case key_quit:
-					printf("Quit\n");
+					printf("[Quit CoSimulation Program]\n");
 					prompt = 0;
 					break;
 				default:
-					printf("Default\n");
+					printf("[Unknown or uncompleted command \"%s\", type \"help\" to display supported commands]\n", pCmd ? pCmd : "");
 					break;
 		}
 
