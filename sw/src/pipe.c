@@ -3,6 +3,9 @@
 #include<string.h>
 #include<argp.h>
 #include<argz.h>
+#include<readline/readline.h>
+#include"gen_cmd.h"
+#include<regex.h>
 
 /*******************************************************************************
 ***  Global Variables  *********************************************************
@@ -16,27 +19,35 @@ const char *argp_program_bug_address =
 static char doc[] =
 "Command line application to test 8 Bit Adder hardware.";
 
+/* Known command key bindings */
+//enun command_key
+//{
+//
+//};
+
 enum key_options
 {
 	key_verbose = 'v',
 	key_avalue = 'a',
 	key_bvalue = 'b',
 	key_sum = 's',
+	key_quit = 'q',
 	/* Force to stay away from ordinary printable ascii codes */
 	key_pipein = 128,
 	key_pipeout
 };
 
 /* The options we understand. */
-static struct argp_option options[] = 
+static struct commands_t options[] = 
 {
-	{"verbose", key_verbose, 0, 0,  "Produce verbose output", 0},
-	{"avalue",  key_avalue, "A_VALUE", 0, "Value A to sum", 0},
-	{"bvalue",  key_bvalue, "B_VALUE", 0, "Value B to sum", 0},
-	{"sum", key_sum, "SUM", 0, "Execute SUM command", 0},
-	{"pipein", key_pipein, "PIPEIN", 0, "Pipe from simulated hardware", 0},
-	{"pipeout", key_pipeout, "PIPEOUT", 0, "Pipe to simulated hardware", 0},
-	{ 0, 0, 0, 0, 0, 0}
+	{"verbose", key_verbose, "Produce verbose output", "^\\s*(verbose)\\s*$"},
+	{"avalue",  key_avalue, "Value A to sum", "^\\s*(avalue)\\s*$"},
+	{"bvalue",  key_bvalue, "Value B to sum", "^\\s*(bvalue)\\s*$"},
+	{"sum", key_sum, "Execute SUM command", "^\\s*(sum)\\s*$"},
+	{"quit", key_quit,"Exit prompt command", "^\\s*(quit)\\s*$"},
+	{"pipein", key_pipein, "Pipe from simulated hardware", "^\\s*(pipein)\\s*$"},
+	{"pipeout", key_pipeout, "Pipe to simulated hardware", "^\\s*(pipeout)\\s*$"},
+	{ 0, 0, 0, 0}
 };
 
 /* Used by main to communicate with parse_opt. */
@@ -133,18 +144,54 @@ void display_options(struct arguments* arguments)
 	}
 }
 
-/* execute fpga2 command */
+/* execute command */
 static int exec_command(struct arguments* arguments)
 {
 	int result = 0;
 	int cmdresult = 0;
+	int prompt = 1;
+	int key = 0;
+	char* pCmd = 0;
+	char* subcommand[4];
 
-	/* Execute command if any available */
-	if (arguments->sum)
+	do
 	{
-		/* Execute command */
-	}
+		/* Initialize pointers */
+		for (int i = 0; i < 4; i++)
+		{
+			subcommand[i];
+		}
 
+		/* Execute command if any available */
+		if (prompt)
+		{
+			pCmd = readline("Cosimulation>");
+			/* Execute command */
+			key = command_parse(options, pCmd, subcommand, 4);
+			printf("Key Value:%d\n", key);
+		}
+
+		switch(key)
+		{
+				case key_avalue:
+					printf("A Value\n");
+					break;
+				case key_bvalue:
+					printf("B Value\n");
+					break;
+				case key_sum:
+					printf("Sum\n");
+					break;
+				case key_quit:
+					printf("Quit\n");
+					prompt = 0;
+					break;
+				default:
+					printf("Default\n");
+					break;
+		}
+
+	}while(prompt);
 	/* return result */
 	return result;
 }
