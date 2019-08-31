@@ -68,6 +68,7 @@
     <file xil_pn:fileType="FILE_FITTER_REPORT" xil_pn:name="bitadder_summary.xml"/>
     <file xil_pn:fileType="FILE_WEBTALK" xil_pn:name="bitadder_usage.xml"/>
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="bitadder_xst.xrpt"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="full_adder_stx_beh.prj"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="isim"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="pipe_bus.prj"/>
     <file xil_pn:fileType="FILE_XST_STX" xil_pn:name="pipe_bus.stx"/>
@@ -128,19 +129,10 @@
     <transform xil_pn:end_ts="1567263938" xil_pn:in_ck="778207060625113258" xil_pn:name="TRANEXT_xstsynthesize_spartan3e" xil_pn:prop_ck="-5385798072101091201" xil_pn:start_ts="1567263931">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="_xmsgs/xst.xmsgs"/>
-      <outfile xil_pn:name="bitadder.lso"/>
-      <outfile xil_pn:name="bitadder.ngc"/>
-      <outfile xil_pn:name="bitadder.ngr"/>
-      <outfile xil_pn:name="bitadder.prj"/>
-      <outfile xil_pn:name="bitadder.stx"/>
-      <outfile xil_pn:name="bitadder.syr"/>
-      <outfile xil_pn:name="bitadder.xst"/>
-      <outfile xil_pn:name="bitadder_xst.xrpt"/>
-      <outfile xil_pn:name="webtalk_pn.xml"/>
-      <outfile xil_pn:name="xst"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1567263748" xil_pn:in_ck="5119466780705339307" xil_pn:name="TRAN_compileBCD2" xil_pn:prop_ck="-1771258688147882166" xil_pn:start_ts="1567263748">
       <status xil_pn:value="SuccessfullyRun"/>
@@ -148,46 +140,39 @@
     </transform>
     <transform xil_pn:end_ts="1567263945" xil_pn:in_ck="378349264405467536" xil_pn:name="TRANEXT_ngdbuild_FPGA" xil_pn:prop_ck="-468228761808800273" xil_pn:start_ts="1567263940">
       <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="_ngo"/>
-      <outfile xil_pn:name="_xmsgs/ngdbuild.xmsgs"/>
-      <outfile xil_pn:name="bitadder.bld"/>
-      <outfile xil_pn:name="bitadder.ngd"/>
-      <outfile xil_pn:name="bitadder_ngdbuild.xrpt"/>
+      <status xil_pn:value="NotReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1567263951" xil_pn:in_ck="2046238779358452497" xil_pn:name="TRANEXT_map_spartan3" xil_pn:prop_ck="5110806885674398186" xil_pn:start_ts="1567263945">
       <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="_xmsgs/map.xmsgs"/>
-      <outfile xil_pn:name="bitadder.pcf"/>
-      <outfile xil_pn:name="bitadder_map.map"/>
-      <outfile xil_pn:name="bitadder_map.mrp"/>
-      <outfile xil_pn:name="bitadder_map.ncd"/>
-      <outfile xil_pn:name="bitadder_map.ngm"/>
-      <outfile xil_pn:name="bitadder_map.xrpt"/>
-      <outfile xil_pn:name="bitadder_summary.xml"/>
-      <outfile xil_pn:name="bitadder_usage.xml"/>
+      <status xil_pn:value="NotReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1567263963" xil_pn:in_ck="-7040802819798672854" xil_pn:name="TRANEXT_par_spartan3" xil_pn:prop_ck="-8699727321066641134" xil_pn:start_ts="1567263951">
       <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="_xmsgs/par.xmsgs"/>
-      <outfile xil_pn:name="bitadder.ncd"/>
-      <outfile xil_pn:name="bitadder.pad"/>
-      <outfile xil_pn:name="bitadder.par"/>
-      <outfile xil_pn:name="bitadder.ptwx"/>
-      <outfile xil_pn:name="bitadder.unroutes"/>
-      <outfile xil_pn:name="bitadder.xpi"/>
-      <outfile xil_pn:name="bitadder_pad.csv"/>
-      <outfile xil_pn:name="bitadder_pad.txt"/>
-      <outfile xil_pn:name="bitadder_par.xrpt"/>
+      <status xil_pn:value="NotReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1567263963" xil_pn:in_ck="3245751690079057037" xil_pn:name="TRAN_postRouteTrce" xil_pn:prop_ck="445577401284416187" xil_pn:start_ts="1567263960">
       <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="_xmsgs/trce.xmsgs"/>
-      <outfile xil_pn:name="bitadder.twr"/>
-      <outfile xil_pn:name="bitadder.twx"/>
+      <status xil_pn:value="NotReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
   </transforms>
 

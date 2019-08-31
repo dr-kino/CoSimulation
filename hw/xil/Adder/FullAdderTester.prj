@@ -1,0 +1,5 @@
+vhdl work "../../vhdl/fulladder.vhdl"
+vhdl work "../../vhdl/8bitadder.vhdl"
+vhdl work "../../../cosim/hw/pipeSink.vhd"
+vhdl work "../../../cosim/hw/pipeBus.vhd"
+vhdl work "../../tb/FullAdderTester.vhd"

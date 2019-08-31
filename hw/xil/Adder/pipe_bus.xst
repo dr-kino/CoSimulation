@@ -1,0 +1,5 @@
+set -tmpdir "/home/rcavalcanti/Projects/CoSimulation/CoSimulation/hw/xil/Adder/xst/projnav.tmp"
+set -xsthdpdir "/home/rcavalcanti/Projects/CoSimulation/CoSimulation/hw/xil/Adder/xst"
+elaborate
+-ifn pipe_bus.prj
+-ifmt mixed

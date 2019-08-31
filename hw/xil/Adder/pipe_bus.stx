@@ -1,0 +1,38 @@
+Release 14.5 - xst P.58f (lin64)
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+--> 
+Parameter TMPDIR set to /home/rcavalcanti/Projects/CoSimulation/CoSimulation/hw/xil/Adder/xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.06 secs
+ 
+--> 
+Parameter xsthdpdir set to /home/rcavalcanti/Projects/CoSimulation/CoSimulation/hw/xil/Adder/xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.06 secs
+ 
+--> 
+WARNING:Xst:3164 - Option "-debug" found multiple times in the command line. Only the first occurence is considered.
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling vhdl file "/home/rcavalcanti/Projects/CoSimulation/CoSimulation/cosim/hw/pipeBus.vhd" in Library work.
+ERROR:HDLParsers:1015 - "/home/rcavalcanti/Projects/CoSimulation/CoSimulation/cosim/hw/pipeBus.vhd" Line 236. Wait for statement unsupported.
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.09 secs
+ 
+--> 
+
+
+Total memory usage is 469588 kilobytes
+
+Number of errors   :    1 (   0 filtered)
+Number of warnings :    1 (   0 filtered)
+Number of infos    :    0 (   0 filtered)
+
