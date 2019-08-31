@@ -1,10 +1,25 @@
 # CoSimulation
 CoSimulation Project
                                                                            
-Run and Install
-source /usr/share/Xilinx/14.5/ISE_DS/settings64.sh
-
 # Usage
+
+## Building hardware
+
+Run and Install
+```
+source /usr/share/Xilinx/14.5/ISE_DS/settings64.sh
+```
+
+### Executing hardware
+
+## Building software
+```
+autoreconf -i
+./configure
+make
+```
+
+### Executing software
 
 ./Cosimulation
 
