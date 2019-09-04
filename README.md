@@ -1,6 +1,8 @@
 # CoSimulation
 CoSimulation Project
-                                                                           
+
+![Screenshot from 2019-09-04 22-01-23](https://user-images.githubusercontent.com/27175864/64291308-c1191500-cf5f-11e9-8a9c-f8f17c9dbcb5.png)
+
 # Usage
 
 ## Building hardware
