@@ -1,6 +1,14 @@
 # CoSimulation
 CoSimulation Project
-                                                                           
+
+The main idea of this project is create an example for advaced technic of software and hardware testing, knowed as co-simulation. For this test mechanism the driver needed to comunication between sw and hw is abstracted to inter communication process, for this specific case (Unix environment) the "pipe" command garantee the shared data flow.
+
+Software written here uses C language and hardware is described by VHDL language. The hardware project is very simple, just a 8 bit full adder and the software goal is send two values ("A" and "B") to hardware execute the sum operation.
+
+With this prove of concept, another complex interfaces can be abstracted, like USB, PCI, DMA, etc. I hope this project can speed up the functional tests for projects that uses software and synthesized hardware (FPGA) in embedded system area.
+
+![Screenshot from 2019-09-04 22-01-23](https://user-images.githubusercontent.com/27175864/64291308-c1191500-cf5f-11e9-8a9c-f8f17c9dbcb5.png)
+
 # Usage
 
 ## Building hardware
