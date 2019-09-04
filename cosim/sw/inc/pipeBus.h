@@ -1,6 +1,7 @@
 #ifndef PIPE_INTERFACE_H
 #define PIPE_INTERFACE_H
-#include<stdint.h>
+#include <stdint.h>
+#include "bus.h"
 
 struct _PIPE_Obj_t;
 typedef struct _PIPE_Obj_t PIPE_Obj_t;
