@@ -39,6 +39,7 @@ int main (int argc, const char*argv[])
 	for (int i = 0; i < 4; i++)
 	{
 		PIPE_ReadFromBus(pPipe, 4*i, &Data);
+		printf("...read from bus DONE! \"%d time\"\n", i);
 		printf("%X\n", Data);	
 	}
 
@@ -46,12 +47,14 @@ int main (int argc, const char*argv[])
 	for(int i = 0; i < 2; i++)
 	{
 		PIPE_WriteToBus(pPipe, 0x10 + 4*i, 0x11111111*i + 0x12345678);
+		printf("...write from bus DONE! \"%d time\"\n", i);
 	}
 
 	printf("Reading from bus...\n");
 	for(int i = 0; i < 2; i++)
 	{
 		PIPE_ReadFromBus(pPipe, 0x10 + 4*i, &Data);
+		printf("...read from bus DONE! \"%d time\"\n", i);
 		printf("%X\n", Data);
 	}
 
