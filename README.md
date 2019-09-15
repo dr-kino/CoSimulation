@@ -60,3 +60,8 @@ Sum operation executing on FPGA ...
   Result = 15
   Carry = 0
 ```
+#Tests
+
+## Pipe Bus Test
+
+![PipeBus-Usage](https://user-images.githubusercontent.com/27175864/64924122-e831db00-d7d8-11e9-9609-fe2dc1ffda48.png)
