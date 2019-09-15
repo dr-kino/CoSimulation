@@ -1,5 +1,5 @@
-#ifndef PIPE_INTERFACE_H
-#define PIPE_INTERFACE_H
+#ifndef PIPEBUS_H
+#define PIPEBUS_H
 #include <stdint.h>
 #include "bus.h"
 
@@ -25,4 +25,4 @@ int PIPE_Read8(void*, uint32_t, uint8_t*);
 
 void* PIPE_GetRWObj(pPIPE_Obj_t);
 
-#endif /* PIPE_INTERFACE_H */
+#endif /* PIPEBUS_H */

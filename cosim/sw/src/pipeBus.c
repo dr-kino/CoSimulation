@@ -6,9 +6,9 @@
 #include<stdbool.h>
 #include<pthread.h>
 #include<ctype.h>
+#include"sanity.h"
 #include"pipeBus.h"
 #include"log.h"
-#include"sanity.h"
 
 /*******************************************************************************
  ***   Function Declaration                                                  ***
@@ -52,13 +52,13 @@ static int PIPE_OpenInFile(pPIPE_Obj_t pMy, const char* pFileName)
 
 	if (pMy == NULL)
 	{
-		//Warning(gModName, __LINE__, "Invalid pMy object.");
+		Warning(gModName, __LINE__, "Invalid pMy object.");
 		return -1;
 	}
 
 	if (pFileName == NULL)
 	{
-		//Warning(gModName, __LINE__, "Invalid pFileName object.");
+		Warning(gModName, __LINE__, "Invalid pFileName object.");
 		goto failure;
 	}
 
@@ -67,7 +67,7 @@ static int PIPE_OpenInFile(pPIPE_Obj_t pMy, const char* pFileName)
 	pMy->pInFileName = malloc(size + 1);
 	if (pMy->pInFileName == NULL)
 	{
-		//Warning(gModName, __LINE__, "Unable to allocate memory.");
+		Warning(gModName, __LINE__, "Unable to allocate memory.");
 		goto failure;
 	}
 	strcpy(pMy->pInFileName, pFileName);
@@ -81,7 +81,7 @@ static int PIPE_OpenInFile(pPIPE_Obj_t pMy, const char* pFileName)
 
 	if (pMy->pInFile == NULL)
 	{
-		//Warning(gModName, __LINE__, "Unable to open file.");
+		Warning(gModName, __LINE__, "Unable to open file.");
 		goto failure;
 	}
 
@@ -104,13 +104,13 @@ static int PIPE_OpenOutFile(pPIPE_Obj_t pMy, const char* pFileName)
 
 	if (pMy == NULL)
 	{
-		//Warning(gModName, __LINE__, "Invalid pMy object.");
+		Warning(gModName, __LINE__, "Invalid pMy object.");
 		return -1;
 	}
 
 	if (pFileName == NULL)
 	{
-		//Warning(gModName, __LINE__, "Invalid pFileName.");
+		Warning(gModName, __LINE__, "Invalid pFileName.");
 		goto failure;
 	}
 
@@ -119,7 +119,7 @@ static int PIPE_OpenOutFile(pPIPE_Obj_t pMy, const char* pFileName)
 	pMy->pOutFileName = malloc(size + 1);
 	if (pMy->pOutFileName == NULL)
 	{
-		//Warning(gModName, __LINE__, "Unable to allocate memory.");
+		Warning(gModName, __LINE__, "Unable to allocate memory.");
 		goto failure;
 	}
 	strcpy(pMy->pOutFileName, pFileName);
@@ -129,11 +129,11 @@ static int PIPE_OpenOutFile(pPIPE_Obj_t pMy, const char* pFileName)
 		fclose(pMy->pOutFile);
 		pMy->pOutFile = NULL;
 	}
-	pMy->pOutFile = fopen(pMy->pOutFileName, "w");
+	pMy->pOutFile = fopen(pMy->pOutFileName, "w+");
 
 	if (pMy->pOutFile == NULL)
 	{
-		//Warning(gModName, __LINE__, "Unable to open file.");
+		Warning(gModName, __LINE__, "Unable to open file.");
 		goto failure;
 	}
 
@@ -154,7 +154,7 @@ static int PIPE_InitObj(pPIPE_Obj_t pMy)
 {
 	if (pMy == NULL)
 	{
-		//Warning(gModName, __LINE__, "Invalid pMy object.");
+		Warning(gModName, __LINE__, "Invalid pMy object.");
 		return -1;
 	}
 
@@ -180,13 +180,13 @@ pPIPE_Obj_t PIPE_Alloc(void)
 
 	if (pMy == NULL)
 	{
-		//Warning(gModName, __LINE__, "Failure allocating object.");
+		Warning(gModName, __LINE__, "Failure allocating object.");
 		return NULL;
 	}
 
 	if (PIPE_InitObj(pMy))
 	{
-		//Warning(gModName, __LINE__, "Failure initializing object.");
+		Warning(gModName, __LINE__, "Failure initializing object.");
 		free(pMy);
 		return NULL;
 	}
@@ -221,19 +221,19 @@ int PIPE_Init(pPIPE_Obj_t pMy, const char* pInFileName, const char* pOutFileName
 {
 	if (pMy == NULL)
 	{
-		//Warning(gModName, __LINE__, "Invalid pMy object.");
+		Warning(gModName, __LINE__, "Invalid pMy object.");
 		return -1;
 	}
 
 	if (PIPE_OpenInFile(pMy, pInFileName))
 	{
-		//Warning(gModName, __LINE__, "Failure opening input file.");
+		Warning(gModName, __LINE__, "Failure opening input file.");
 		return -1;
 	}
 
 	if (PIPE_OpenOutFile(pMy, pOutFileName))
 	{
-		//Warning(gModName, __LINE__, "Failure opening output file.");
+		Warning(gModName, __LINE__, "Failure opening output file.");
 		return -1;
 	}
 
@@ -287,7 +287,7 @@ static char* PIPE_GetCommand(void)
     char* name = (char*)malloc(max); // allocate buffer
     if (name == NULL)
     {
-		//Warning(gModName, __LINE__, "Failure allocating memory");
+		Warning(gModName, __LINE__, "Failure allocating memory");
 		return NULL;
     }
 
@@ -321,7 +321,7 @@ static char* PIPE_GetCommand(void)
             name = (char*)realloc(name,max); // get a new and larger buffer
             if (name == NULL)
 	    {
-		   //Warning(gModName, __LINE__, "Failure allocating memory");
+		   Warning(gModName, __LINE__, "Failure allocating memory");
 		   return NULL;
 	    }
         }
@@ -339,7 +339,7 @@ static int PIPE_WriteCmd(FILE* pFile, const char* pCmd)
 	if (pCmd == NULL)
 	{
 		/* Failure */
-		////Warning(gModName, __LINE__, "Invalid command.");
+		Warning(gModName, __LINE__, "Invalid command.");
 		return -1;
 	}
 
@@ -347,7 +347,7 @@ static int PIPE_WriteCmd(FILE* pFile, const char* pCmd)
 	if (pFile == NULL)
 	{
 		/* Failure */
-		//Warning(gModName, __LINE__, "No file open.");
+		Warning(gModName, __LINE__, "No file open.");
 		return -1;
 	}
 
@@ -360,7 +360,7 @@ static int PIPE_WriteCmd(FILE* pFile, const char* pCmd)
 	if (result < 0)
 	{
 		/* Failure */
-		//Warning(gModName, __LINE__, "Failure writing to file.");
+		Warning(gModName, __LINE__, "Failure writing to file.");
 		return -1;
 	}
 
@@ -391,7 +391,7 @@ static int PIPE_IsAnswerSync(const char* pAnswer, uint32_t* pTag)
 	/* Do not read a null pointer */
 	if (pAnswer == NULL)
 	{
-		//Warning(gModName, __LINE__, "Pointer to invalid object.");
+		Warning(gModName, __LINE__, "Pointer to invalid object.");
 		return 0;
 	}
 
@@ -538,7 +538,7 @@ void PIPE_Interactive(pPIPE_Obj_t pMy)
 	/* Prohibit this thread of accessing null objects */
 	if (pMy == NULL)
 	{
-		//Warning(gModName, __LINE__, "NULL argument.");
+		Warning(gModName, __LINE__, "NULL argument.");
 	}
 
 	printf("Entering interactive mode\n");
@@ -574,7 +574,7 @@ void PIPE_Interactive(pPIPE_Obj_t pMy)
 		/* Write command */
 		if (PIPE_WriteCmd(pMy->pOutFile, cmd))
 		{
-			//Warning(gModName, __LINE__, "Unable to write command.");
+			Warning(gModName, __LINE__, "Unable to write command.");
 		}
 
 		/* Release buffer */
@@ -601,7 +601,7 @@ int PIPE_WriteToBus(pPIPE_Obj_t pMy, uint32_t Addr, uint32_t Data)
 	/* Write command */
 	if (PIPE_WriteCmd(pMy->pOutFile, buf))
 	{
-		//Warning(gModName, __LINE__, "Unable to write command.");
+		Warning(gModName, __LINE__, "Unable to write command.");
 	}
 
 	/* Wait command acknowledge */
@@ -611,7 +611,7 @@ int PIPE_WriteToBus(pPIPE_Obj_t pMy, uint32_t Addr, uint32_t Data)
 		ans = PIPE_GetAnswer(pMy->pInFile);
 		if (PIPE_IsAnswerNAck(ans))
 		{
-			//Warning(gModName, __LINE__, "Command not accepted.");
+			Warning(gModName, __LINE__, "Command not accepted.");
 			free(ans);
 			return -1;
 		}
@@ -626,8 +626,8 @@ int PIPE_WriteToBus(pPIPE_Obj_t pMy, uint32_t Addr, uint32_t Data)
 		}
 		else
 		{
-			//Warning(gModName, __LINE__, "Unexpected answer.");
-			//Warning(gModName, __LINE__, ans);
+			Warning(gModName, __LINE__, "Unexpected answer.");
+			Warning(gModName, __LINE__, ans);
 			free(ans);
 		}
 	}while(true);
@@ -661,7 +661,7 @@ int PIPE_ReadFromBus(pPIPE_Obj_t pMy, uint32_t Addr, uint32_t* pData)
 	/* Write command */
 	if (PIPE_WriteCmd(pMy->pOutFile, buf))
 	{
-		//Warning(gModName, __LINE__, "Unable to write command.");
+		Warning(gModName, __LINE__, "Unable to write command.");
 	}
 
 	/* Wait command acknowledge */
@@ -671,7 +671,7 @@ int PIPE_ReadFromBus(pPIPE_Obj_t pMy, uint32_t Addr, uint32_t* pData)
 		ans = PIPE_GetAnswer(pMy->pInFile);
 		if (PIPE_IsAnswerNAck(ans))
 		{
-			//Warning(gModName, __LINE__, "Command not accepted.");
+			Warning(gModName, __LINE__, "Command not accepted.");
 			free(ans);
 			return -1;
 		}
@@ -686,8 +686,8 @@ int PIPE_ReadFromBus(pPIPE_Obj_t pMy, uint32_t Addr, uint32_t* pData)
 		}
 		else
 		{
-			//Warning(gModName, __LINE__, "Unexpected answer.");
-			//Warning(gModName, __LINE__, ans);
+			Warning(gModName, __LINE__, "Unexpected answer.");
+			Warning(gModName, __LINE__, ans);
 			free(ans);
 		}
 	}while(true);
@@ -723,7 +723,7 @@ int PIPE_EndSimulation(pPIPE_Obj_t pMy)
 	/* Write command */
 	if (PIPE_WriteCmd(pMy->pOutFile, buf))
 	{
-		//Warning(gModName, __LINE__, "Unable to write command.");
+		Warning(gModName, __LINE__, "Unable to write command.");
 	}
 
 	/* Wait command acknowledge */
@@ -733,7 +733,7 @@ int PIPE_EndSimulation(pPIPE_Obj_t pMy)
 		ans = PIPE_GetAnswer(pMy->pInFile);
 		if (PIPE_IsAnswerNAck(ans))
 		{
-			//Warning(gModName, __LINE__, "Command not accepted.");
+			Warning(gModName, __LINE__, "Command not accepted.");
 			free(ans);
 			return -1;
 		}
@@ -748,8 +748,8 @@ int PIPE_EndSimulation(pPIPE_Obj_t pMy)
 		}
 		else
 		{
-			//Warning(gModName, __LINE__, "Unexpected answer.");
-			//Warning(gModName, __LINE__, ans);
+			Warning(gModName, __LINE__, "Unexpected answer.");
+			Warning(gModName, __LINE__, ans);
 			free(ans);
 		}
 	}while(true);
@@ -814,7 +814,7 @@ int PIPE_Read8(void* pMy, uint32_t Addr, uint8_t* pData)
 	addr = Addr % 4;
 	if (pData == NULL)
 	{
-		//Warning(gModName, __LINE__, "Pointer to NULL.");
+		Warning(gModName, __LINE__, "Pointer to NULL.");
 		return -1;
 	}
 	*pData = data >> 8 * addr;
@@ -856,7 +856,7 @@ void PIPE_SyncPipe(pPIPE_Obj_t pMy)
 	/* Avoid using null object */
 	if (pMy == NULL)
 	{
-		//Warning(gModName, __LINE__, "Unable to sync pipe.");
+		Warning(gModName, __LINE__, "Unable to sync pipe.");
 		return;
 	}
 
@@ -867,7 +867,7 @@ void PIPE_SyncPipe(pPIPE_Obj_t pMy)
 	if (PIPE_WriteCmd(pMy->pOutFile, buf))
 	{
 		/* Avoid hanging due to unsent command. */
-		//Warning(gModName, __LINE__, "Unable to write sync command.");
+		Warning(gModName, __LINE__, "Unable to write sync command.");
 		return;
 	}
 
@@ -937,7 +937,7 @@ char* PIPE_GetAnswer(FILE* pFile)
 	   	}
 		else
 		{
-			//LOG_Warning(NULL, gModName, __LINE__, "Unable to allocate memory.");
+			LOG_Warning(NULL, gModName, __LINE__, "Unable to allocate memory.");
 		}
 	}
 

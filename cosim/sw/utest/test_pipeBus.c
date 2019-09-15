@@ -23,33 +23,40 @@ int main (int argc, const char*argv[])
 		return -1;
 	}
 
+	printf("Allocating pipe objects...\n");
 	pPipe = PIPE_Alloc();
+
+	printf("Initializing pipe objects...\n");
 	if (PIPE_Init(pPipe, argv[1], argv[2]))
 	{
-		//Warning(gModName, __LINE__, "Failure initializing simulation PIPE");
+		Warning(gModName, __LINE__, "Failure initializing simulation PIPE");
 	}
 
+	/* Put PIPE in interactive mode */
+	//PIPE_Interactive(pPipe);
+
+	printf("Reading from bus...\n");
 	for (int i = 0; i < 4; i++)
 	{
 		PIPE_ReadFromBus(pPipe, 4*i, &Data);
 		printf("%X\n", Data);	
 	}
 
+	printf("Writing from bus...\n");
 	for(int i = 0; i < 2; i++)
 	{
 		PIPE_WriteToBus(pPipe, 0x10 + 4*i, 0x11111111*i + 0x12345678);
 	}
 
+	printf("Reading from bus...\n");
 	for(int i = 0; i < 2; i++)
 	{
 		PIPE_ReadFromBus(pPipe, 0x10 + 4*i, &Data);
 		printf("%X\n", Data);
 	}
 
+	printf("Finishing simulation...");
 	PIPE_EndSimulation(pPipe);
-
-	/* Put PIPE in interactive mode */
-	// PIPE_Interactive(pPipe);
 
 	PIPE_Free(pPipe);
 
