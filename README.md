@@ -60,3 +60,11 @@ Sum operation executing on FPGA ...
   Result = 15
   Carry = 0
 ```
+# Tests
+
+## Pipe Bus Test
+
+The image below shows results of pipe bus that transfer data between HW simulation and software. Through fifo files created is possible to exchange data with software, here the input file for software is named *bus_hw2sw.txt* and output is named *bus_sw2hw.txt*.
+In the left side of picture, the test software **TestPipeBus** is executed and in right side up is possible to see data being sent for "bus_hw2sw.txt" via **echo** command and in the right side down is possible to see data being sent by software **TestPipeBus** for file "bus_sw2hw.txt". Both files are created using the command **mkfifo**, a way to create a memory share in unix environment.  
+
+![PipeBus-Usage](https://user-images.githubusercontent.com/27175864/64924122-e831db00-d7d8-11e9-9609-fe2dc1ffda48.png)
