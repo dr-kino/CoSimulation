@@ -39,8 +39,8 @@ ARCHITECTURE behavior OF FullAdderTester IS
  
     -- Component Declaration for the Unit Under Test (UUT)
  
-    COMPONENT bitadder
-    PORT(
+	component bitadder
+    port(
          A : IN  std_logic_vector(7 downto 0);
          B : IN  std_logic_vector(7 downto 0);
          C_IN : IN  std_logic;
@@ -48,11 +48,12 @@ ARCHITECTURE behavior OF FullAdderTester IS
          C_OUT : OUT  std_logic;
          OVERFLOW : OUT  std_logic
         );
-    END COMPONENT;
+	end component;
     
 	component pipe_bus is
 	generic
 	(
+		AddrWidth_g : natural := 2;
 		DataWidth_g : natural := 8;
 		InputFile_g : string := "bus_sw2hw.txt";
 		OutputFile_g : string := "bus_hw2sw.txt"
@@ -61,60 +62,64 @@ ARCHITECTURE behavior OF FullAdderTester IS
 	(
 		Clk_Bus_i : in std_logic;
 		Ready_i : in std_logic;
+		Addr_o : out std_logic_vector(AddrWidth_g - 1 downto 0);
 		DataA_o : out std_logic_vector(DataWidth_g - 1 downto 0);
 		DataB_o : out std_logic_vector(DataWidth_g - 1 downto 0);
 		Ready_o : out std_logic;
-		DataBus_o : out std_logic_vector(DataWidth_g - 1 downto 0)
+		DataBus_i : in std_logic_vector(DataWidth_g - 1 downto 0)
 	);
 	end component pipe_bus;
 
-	component pipe_sink is
-	generic
-	(
-		DataWidth_g : natural := 8;
-		InFile_g : string := "sink_sw2hw.txt";
-		OutFile_g : string := "sink_hw2sw.txt"
-	);
-	port
-	(
-		Clk_Pipe_i : in std_logic;
-		Data_i : in std_logic_vector(DataWidth_g - 1 downto 0);
-		DataSink_o : out std_logic_vector(DataWidth_g - 1 downto 0)
-	);
-	end component pipe_sink;
+	--component pipe_sink is
+	--generic
+	--(
+	--	DataWidth_g : natural := 8;
+	--	InFile_g : string := "sink_sw2hw.txt";
+	--	OutFile_g : string := "sink_hw2sw.txt"
+	--);
+	--port
+	--(
+	--	Clk_Pipe_i : in std_logic;
+	--	Data_i : in std_logic_vector(DataWidth_g - 1 downto 0);
+	--	DataSink_o : out std_logic_vector(DataWidth_g - 1 downto 0)
+	--);
+	--end component pipe_sink;
 
 	-- Pipe Bus
 	constant Pipe_DataWidth_g : natural := 8;
+	constant Pipe_AddrWidth_g : natural := 2;
 	signal Pipe_Ready_i : std_logic := '0';
+	signal Pipe_Addr_i : std_logic_vector(Pipe_AddrWidth_g - 1 downto 0) := "00";
 	signal Pipe_DataA_i : std_logic_vector(Pipe_DataWidth_g - 1 downto 0) := "00000000";
 	signal Pipe_DataB_i : std_logic_vector(Pipe_DataWidth_g - 1 downto 0) := "00000000";
 	signal Pipe_Ready_o : std_logic := '0';
 	signal Pipe_Data_o : std_logic_vector(Pipe_DataWidth_g - 1 downto 0) := "00000000";
 	-- Pipe Sink
-	signal PipeSink_DataWord_o : std_logic_vector(8 downto 0) := "000000000";
-	signal PipeSink_Data_i : std_logic_vector(8 downto 0) := "000000000";
-	signal PipeSink_Data_o : std_logic_vector(8 downto 0) := "000000000";
+	signal PipeSink_DataWord_o : std_logic_vector(7 downto 0) := "00000000";
+	signal PipeSink_Data_i : std_logic_vector(7 downto 0) := "00000000";
+	signal PipeSink_Data_o : std_logic_vector(7 downto 0) := "00000000";
 
-   --Inputs
-   signal SA : std_logic_vector(7 downto 0) := (others => '0');
-   signal SB : std_logic_vector(7 downto 0) := (others => '0');
-   signal SC_IN : std_logic := '0';
+	--Inputs
+	signal SA : std_logic_vector(7 downto 0) := (others => '0');
+	signal SB : std_logic_vector(7 downto 0) := (others => '0');
+	signal SC_IN : std_logic := '0';
 
  	--Outputs
-   signal SS_O : std_logic_vector(7 downto 0) := (others => '0');
-   signal SC_OUT : std_logic := '0';
-   signal SOVERFLOW : std_logic := '0';
-   -- No clocks detected in port list. Replace <clock> below with 
-   -- appropriate port name 
+	signal SS_O : std_logic_vector(7 downto 0) := (others => '0');
+	signal SC_OUT : std_logic := '0';
+	signal SOVERFLOW : std_logic := '0';
+	-- No clocks detected in port list. Replace <clock> below with 
+	-- appropriate port name 
  
 	signal clock : std_logic := '0';
-   constant clock_period : time := 10 ns;
+	constant clock_period : time := 10 ns;
  
-BEGIN
+begin
  
 	Pipe_inst_bus: pipe_bus
 	generic map
 	(
+		AddrWidth_g => 2,
 		DataWidth_g => 8,
 		InputFile_g => "../../../cosim/pipe/bus_sw2hw.txt",
 		OutputFile_g => "../../../cosim/pipe/bus_hw2sw.txt"
@@ -123,62 +128,59 @@ BEGIN
 	(
 		Clk_Bus_i => clock,
 		Ready_i => Pipe_Ready_i,
+		Addr_o => Pipe_Addr_i,
 		DataA_o => Pipe_DataA_i,
 		DataB_o => Pipe_DataB_i,
 		Ready_o => Pipe_Ready_o,
-		DataBus_o => Pipe_Data_o
+		DataBus_i => Pipe_Data_o
 	);
 
-	Pipe_inst_sink: pipe_sink
-	generic map
-	(
-		DataWidth_g => PipeSink_DataWord_o'length,
-		InFile_g => "../../../cosim/pipe/sink_sw2hw.txt",
-		OutFile_g => "../../../cosim/pipe/sink_hw2sw.txt"
-	)
-	port map
-	(
-		Clk_Pipe_i => clock,
-		Data_i => PipeSink_Data_i, 
-		DataSink_o => PipeSink_Data_o
-	);
+	--Pipe_inst_sink: pipe_sink
+	--generic map
+	--(
+	--	DataWidth_g => PipeSink_DataWord_o'length,
+	--	InFile_g => "../../../cosim/pipe/sink_sw2hw.txt",
+	--	OutFile_g => "../../../cosim/pipe/sink_hw2sw.txt"
+	--)
+	--port map
+	--(
+	--	Clk_Pipe_i => clock,
+	--	Data_i => PipeSink_Data_i, 
+	--	DataSink_o => PipeSink_Data_o
+	--);
 
 	-- Instantiate the Unit Under Test (UUT)
-   uut: bitadder PORT MAP (
-          A => SA,
-          B => SB,
-          C_IN => SC_IN,
-          S_O => SS_O,
-          C_OUT => SC_OUT,
-          OVERFLOW => SOVERFLOW
-        );
+	uut: bitadder PORT MAP (
+	       A => Pipe_DataA_i,
+	       B => Pipe_DataB_i,
+	       C_IN => SC_IN,
+	       S_O => Pipe_Data_o,
+	       C_OUT => SC_OUT,
+	       OVERFLOW => SOVERFLOW
+	);
 
-   -- Clock process definitions
-   clock_process :process
-   begin
+	-- Clock process definitions
+	clock_process :process
+	begin
 		clock <= '0';
 		wait for clock_period/2;
 		clock <= '1';
 		wait for clock_period/2;
-   end process;
+	end process;
  
 
-   -- Stimulus process
-   stim_proc: process
-   begin		
-      -- hold reset state for 100 ns.
-      wait for 100 ns;	
+	-- Stimulus process
+	stim_proc: process
+	begin		
+		-- hold reset state for 100 ns.
+		wait for 100 ns;	
 
-      wait for clock_period*10;
+		wait for clock_period*10;
 
 		if clock'event and clock = '1' then
-		   -- insert stimulus here 
-			SA <= Pipe_DataA_i;
-			SB <= Pipe_DataB_i;
---			A <= "11110000";
---			B <= "11110101";
+			-- insert stimulus here
 		end if;
 		
-   end process;
+	end process;
 
-END;
+end;
