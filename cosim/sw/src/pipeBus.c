@@ -585,7 +585,7 @@ void PIPE_Interactive(pPIPE_Obj_t pMy)
 	}
 }
 
-int PIPE_WriteToBus(pPIPE_Obj_t pMy, uint32_t Addr, uint32_t Data)
+int PIPE_WriteToBus(pPIPE_Obj_t pMy, uint32_t Data, uint32_t Addr)
 {
 	char buf[64];
 	char* ans;
@@ -594,9 +594,9 @@ int PIPE_WriteToBus(pPIPE_Obj_t pMy, uint32_t Addr, uint32_t Data)
 	/* Synchronize bus */
 	PIPE_SyncPipe(pMy);
 
-	Addr -= Addr % 4;
+	//Addr -= Addr % 4;
 
-	snprintf(buf, sizeof(buf), "W,%X,%X;", Addr, Data);
+	snprintf(buf, sizeof(buf), "W,%X,%X;", Data, Addr);
 
 	/* Write command */
 	if (PIPE_WriteCmd(pMy->pOutFile, buf))
@@ -774,7 +774,7 @@ int PIPE_Write8(void* pMy, uint32_t Addr, uint8_t Data)
 	uint8_t addr;
 	uint32_t maska;
 	uint32_t maskb;
-	
+
 	addr = Addr % 4;
 	b = Data;
 	maskb = 0xFF << 8 * addr;
@@ -802,7 +802,7 @@ int PIPE_Read8(void* pMy, uint32_t Addr, uint8_t* pData)
 {
 	uint32_t data;
 	uint8_t addr;
-	
+
 	/* Read data from bus */
 	if (PIPE_ReadFromBus(pMy, Addr, &data))
 	{
@@ -1043,3 +1043,4 @@ const BUS_Obj_t* PIPE_GetBusObj(pPIPE_Obj_t pMy)
 
 	return ptr;
 }
+

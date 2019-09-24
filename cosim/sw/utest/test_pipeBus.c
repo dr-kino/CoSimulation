@@ -43,7 +43,7 @@ int main (int argc, const char*argv[])
 		printf("%X\n", Data);	
 	}
 
-	printf("Writing from bus...\n");
+	printf("Writing to bus...\n");
 	for(int i = 0; i < 2; i++)
 	{
 		PIPE_WriteToBus(pPipe, 0x10 + 4*i, 0x11111111*i + 0x12345678);

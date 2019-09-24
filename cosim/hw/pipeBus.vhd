@@ -320,7 +320,7 @@ begin
 						wait until rising_edge(Clk_Bus_i);
 						if Ready_i = '0' then
 							-- Done executing
-							WriteCommand("D");
+							-- WriteCommand("D");
 							exit;
 						else
 							-- Still busy
@@ -367,7 +367,7 @@ begin
 					writeline(f2, l2);
 
 					-- Simulation sync acknowledge
-					WriteCommand("S");
+					WriteCommand("S", Data);
 
 				when others =>
 					write(l2, "Invalid");
