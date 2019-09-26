@@ -1,3 +1,25 @@
+/**
+ * @file pipe.c
+ * @author Rafael Cavalcanti <doctorkinoo@gmail.com>
+ * @version 1.0
+ *
+ * @section LICENSE
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details at
+ * https://www.gnu.org/copyleft/gpl.html
+ *
+ * @section DESCRIPTION
+ * 
+ * The main file called pipe.c that implements interface with user.
+ */
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -21,7 +43,7 @@
 ***  Global Variables  *********************************************************
 *******************************************************************************/
 const char *argp_program_version =
-"CoSimulation 0.1";
+"CoSimulation 1.0";
 const char *argp_program_bug_address =
 "<doctorkinoo@gmail.com>";
 static const char gModName[] =
@@ -265,6 +287,13 @@ void showUsage(const char* name)
 	printf("%s <pipe in file> <pipe out file> \n", name);
 }
 
+/**
+ *
+ *
+ *
+ *
+ *
+ */
 int main(int argc, char **argv)
 {
 	struct arguments arguments;
