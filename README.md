@@ -7,7 +7,7 @@ Software written here uses C language and hardware is described by VHDL language
 
 With this prove of concept, another complex interfaces can be abstracted, like USB, PCI, DMA, etc. I hope this project can speed up the functional tests for projects that uses software and synthesized hardware (FPGA) in embedded system area.
 
-![Screenshot from 2019-09-04 22-01-23](https://user-images.githubusercontent.com/27175864/64291308-c1191500-cf5f-11e9-8a9c-f8f17c9dbcb5.png)
+![Screenshot from 2019-09-26 00-21-18](https://user-images.githubusercontent.com/27175864/65646735-f4e1da80-dff3-11e9-9bf1-00897d840dc1.png)
 
 # Usage
 
