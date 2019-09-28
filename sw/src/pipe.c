@@ -47,7 +47,7 @@ const char *argp_program_version =
 const char *argp_program_bug_address =
 "<doctorkinoo@gmail.com>";
 static const char gModName[] =
-"Test_pipeBus";
+"CoSimulation";
 
 /* Pipe object */
 pPIPE_Obj_t pPipe;
@@ -178,7 +178,15 @@ void display_options(struct arguments* arguments)
 	}
 }
 
-/* execute command */
+/**
+ * <exec_command function>
+ *
+ * <Longer description>
+ * <Handle input arguments and execute the selected option>
+ *
+ * @param  arguments - Number of entries, should be two
+ * @return result - Success or failure of main function execution
+ */
 static int exec_command(struct arguments* arguments)
 {
 	int result = 0;
@@ -281,6 +289,15 @@ static int exec_command(struct arguments* arguments)
 	return result;
 }
 
+/**
+ * <showUsage function>
+ *
+ * <Longer description>
+ * <Print how the program should be ran>
+ *
+ * @param  name - Program name
+ * @return void - No return
+ */
 void showUsage(const char* name)
 {
 	printf("Usage: ");
@@ -288,11 +305,14 @@ void showUsage(const char* name)
 }
 
 /**
+ * <Main function>
  *
+ * <Longer description>
+ * <Allocate and initialize pipe object>
  *
- *
- *
- *
+ * @param  argc - Number of entries, should be two
+ * @param  argv - Input files for pipe communication
+ * @return result - Success or failure of main function execution
  */
 int main(int argc, char **argv)
 {
