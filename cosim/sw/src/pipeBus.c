@@ -1043,4 +1043,3 @@ const BUS_Obj_t* PIPE_GetBusObj(pPIPE_Obj_t pMy)
 
 	return ptr;
 }
-

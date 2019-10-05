@@ -45,7 +45,7 @@ ARCHITECTURE behavior OF FullAdderTester IS
          B : IN  std_logic_vector(7 downto 0);
          C_IN : IN  std_logic;
          S_O : OUT  std_logic_vector(7 downto 0);
-         C_OUT : OUT  std_logic;
+         --C_OUT : OUT  std_logic;
          OVERFLOW : OUT  std_logic
         );
 	end component;
@@ -69,21 +69,6 @@ ARCHITECTURE behavior OF FullAdderTester IS
 		DataBus_i : in std_logic_vector(DataWidth_g - 1 downto 0)
 	);
 	end component pipe_bus;
-
-	--component pipe_sink is
-	--generic
-	--(
-	--	DataWidth_g : natural := 8;
-	--	InFile_g : string := "sink_sw2hw.txt";
-	--	OutFile_g : string := "sink_hw2sw.txt"
-	--);
-	--port
-	--(
-	--	Clk_Pipe_i : in std_logic;
-	--	Data_i : in std_logic_vector(DataWidth_g - 1 downto 0);
-	--	DataSink_o : out std_logic_vector(DataWidth_g - 1 downto 0)
-	--);
-	--end component pipe_sink;
 
 	-- Pipe Bus
 	constant Pipe_DataWidth_g : natural := 8;
@@ -135,20 +120,6 @@ begin
 		DataBus_i => Pipe_Data_o
 	);
 
-	--Pipe_inst_sink: pipe_sink
-	--generic map
-	--(
-	--	DataWidth_g => PipeSink_DataWord_o'length,
-	--	InFile_g => "../../../cosim/pipe/sink_sw2hw.txt",
-	--	OutFile_g => "../../../cosim/pipe/sink_hw2sw.txt"
-	--)
-	--port map
-	--(
-	--	Clk_Pipe_i => clock,
-	--	Data_i => PipeSink_Data_i, 
-	--	DataSink_o => PipeSink_Data_o
-	--);
-
 	-- Instantiate the Unit Under Test (UUT)
 	uut: bitadder PORT MAP (
 	       A => Pipe_DataA_i,
@@ -180,7 +151,6 @@ begin
 		if clock'event and clock = '1' then
 			-- insert stimulus here
 		end if;
-		
 	end process;
 
 end;

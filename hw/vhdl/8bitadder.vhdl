@@ -10,7 +10,7 @@ entity bitadder is
 		B		: in  std_logic_vector(7 downto 0);
 		C_IN	: in  std_logic;
 		S_O		: out std_logic_vector(7 downto 0);
-		C_OUT	: out std_logic;
+		--C_OUT	: out std_logic;
 		OVERFLOW: out std_logic
 	);
 end bitadder;
@@ -44,7 +44,7 @@ uGen1 : for i in 0 to 7 generate
 	);	   
 end generate uGen1;
 
-C_OUT <= CARRY_OUT(8);
+--C_OUT <= CARRY_OUT(8);
 OVERFLOW <= CARRY_OUT(7) xor CARRY_OUT(8);
 
 end behavior;
